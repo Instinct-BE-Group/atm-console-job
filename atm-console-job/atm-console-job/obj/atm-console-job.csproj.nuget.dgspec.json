@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {}
+    "C:\\Users\\TOSYNNO\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {}
   },
   "projects": {
-    "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {
+    "C:\\Users\\TOSYNNO\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+        "projectUniqueName": "C:\\Users\\TOSYNNO\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
         "projectName": "atm-console-job",
-        "projectPath": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+        "projectPath": "C:\\Users\\TOSYNNO\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
         "packagesPath": "C:\\Users\\TOSYNNO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\obj\\",
+        "outputPath": "C:\\Users\\TOSYNNO\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
