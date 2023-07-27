@@ -1,0 +1,15 @@
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\bin\Debug\net6.0\atm-console-job.exe
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\bin\Debug\net6.0\atm-console-job.deps.json
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\bin\Debug\net6.0\atm-console-job.runtimeconfig.json
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\bin\Debug\net6.0\atm-console-job.dll
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\bin\Debug\net6.0\atm-console-job.pdb
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.csproj.AssemblyReference.cache
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.AssemblyInfoInputs.cache
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.AssemblyInfo.cs
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.csproj.CoreCompileInputs.cache
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.dll
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\refint\atm-console-job.dll
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.pdb
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\atm-console-job.genruntimeconfig.cache
+C:\Users\TOSYNNO\source\repos\atm-console-job\atm-console-job\atm-console-job\obj\Debug\net6.0\ref\atm-console-job.dll
