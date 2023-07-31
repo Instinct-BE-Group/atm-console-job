@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ikwunaguio\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {}
+    "C:\\Users\\ikwunaguio\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ikwunaguio\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {
+    "C:\\Users\\ikwunaguio\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ikwunaguio\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+        "projectUniqueName": "C:\\Users\\ikwunaguio\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
         "projectName": "atm-console-job",
-        "projectPath": "C:\\Users\\ikwunaguio\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+        "projectPath": "C:\\Users\\ikwunaguio\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
         "packagesPath": "C:\\Users\\ikwunaguio\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ikwunaguio\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\obj\\",
         "projectStyle": "PackageReference",
