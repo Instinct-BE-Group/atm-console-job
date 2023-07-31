@@ -4,7 +4,7 @@ This project is a simple ATM console application built with C# for the Sterling 
 
 ## 🎉 Group Members
 
-- **Ogechi Ikwunagu** ([@gechinagu](https://github.com/ogechinagu)) - The Code Wizard 🧙‍♂️
+- **Ogechi Ikwunagu** ([@ogechinagu](https://github.com/ogechinagu)) - The Code Wizard 🧙‍♂️
 - **Shedrack Nwoye** ([@shedyp](https://github.com/shedyp)) - The Data Dynamo 📊
 - **Olawale Yusuf** ([@yussufeo](https://github.com/yussufeo)) - The UI Picasso 🎨
 
