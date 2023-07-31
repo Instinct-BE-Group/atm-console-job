@@ -1,4 +1,4 @@
-# ATM Console App with C# for the Sterling Academy Backend Bootcamp Group Project 🏦🚀
+# ATM Console App with C# 🏦🚀
 
 This project is a simple ATM console application built with C# for the Sterling Academy Backend Bootcamp Group Project. The application simulates an ATM experience, allowing customers to perform various banking operations such as checking account balance, withdrawing cash, transferring money, paying bills, opening a new account, and changing the PIN.
 
