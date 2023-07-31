@@ -1,6 +1,6 @@
-# 🌟 ATM Console App with C# for the Sterling Academy Backend Bootcamp Group Project 🏦🌟
+# ATM Console App with C# for the Sterling Academy Backend Bootcamp Group Project 🏦🚀
 
-Welcome to our exciting ATM Console App built with C# as part of the Sterling Academy Backend Bootcamp Group Project! 🚀
+This project is a simple ATM console application built with C# for the Sterling Academy Backend Bootcamp Group Project. The application simulates an ATM experience, allowing customers to perform various banking operations such as checking account balance, withdrawing cash, transferring money, paying bills, opening a new account, and changing the PIN.
 
 ## 🎉 Group Members
 
@@ -29,8 +29,10 @@ Welcome to our exciting ATM Console App built with C# as part of the Sterling Ac
 ### Installation
 
 1. Clone the repository:
+```bash
 git clone https://github.com/Instinct-BE-Group/atm-console-job.git
 cd ATM-Console-App
+```
 
 2. Open the solution in your IDE.
 
