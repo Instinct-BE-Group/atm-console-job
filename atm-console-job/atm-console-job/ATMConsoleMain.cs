@@ -126,6 +126,8 @@
             return Console.ReadLine();
         }
 
+
+
         static bool VerifyCustomer(string? cardNumber, string? pin)
         {
             // Implement customer verification logic here
