@@ -192,6 +192,7 @@
                 string? input = GetInput("Enter your choice (1-8): ");
                 if (int.TryParse(input, out int option) && option >= 1 && option <= 8)
                 {
+                    Console.Clear();
                     return option;
                 }
                 DisplayMessage("Invalid input. Please enter a valid option (1-8).");
