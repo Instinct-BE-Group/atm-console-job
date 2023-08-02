@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Console.Title = "Sterling Bank ATM - Team Instinct";
+            Console.Title = "Sterling Bank ATM";
             // Welcome screen
             DisplayMessage("Welcome to Sterling Bank");
 
