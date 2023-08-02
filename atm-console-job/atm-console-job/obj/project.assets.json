@@ -8,24 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\TOSYNNO\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\USER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
       "projectName": "atm-console-job",
-      "projectPath": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
-      "packagesPath": "C:\\Users\\TOSYNNO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TOSYNNO\\source\\repos\\atm-console-job\\atm-console-job\\atm-console-job\\obj\\",
+      "projectPath": "C:\\Users\\USER\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\atm-console-job.csproj",
+      "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\USER\\Source\\Repos\\atm-console-job\\atm-console-job\\atm-console-job\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\TOSYNNO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -33,7 +28,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -67,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
