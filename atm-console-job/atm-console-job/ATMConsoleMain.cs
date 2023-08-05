@@ -221,6 +221,7 @@
 
             if(input == 1 || input == 2 || input == 3)
             {
+                Console.Clear();
                 Console.WriteLine("Do you want a receipt for this transaction?");
                 Console.WriteLine("1. Yes");
                 Console.WriteLine("2. No");
