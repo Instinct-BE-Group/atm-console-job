@@ -21,6 +21,7 @@
                     Console.Clear();
                     string? pinEntryMode = GetPinEntryMode();
 
+
                     // Please Select your pin entry mode
                     if (pinEntryMode == "1")
                     {
@@ -48,7 +49,7 @@
                         Console.Clear();
                         // Screen 4: Please enter your pin
                         string? pin = GetInput("Please enter your PIN: ");
-                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel");
+                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
                         // If "Enter Pin" option is chosen, proceed directly to Main Menu
                         if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
@@ -207,10 +208,24 @@
 
         static void WithdrawCash()
         {
-            DisplayMessage("Withdraw Cash");
-
+            //DisplayMessage("Withdraw Cash");
+            
             // Implement logic for the Withdraw Cash process
             // Including card type selection, amount selection, and cross-selling options
+            Console.Clear();
+            DisplayMessage("Please select your account type 1-3");
+            DisplayMessage("1. Current");
+            DisplayMessage("2. Savings");
+            DisplayMessage("3. Credit");
+            int input = Convert.ToInt32(Console.ReadLine());
+
+            if(input == 1 || input == 2 || input == 3)
+            {
+                Console.WriteLine("Do you want a receipt for this transaction?");
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
+            }
+
         }
 
         static void ChangePIN()
