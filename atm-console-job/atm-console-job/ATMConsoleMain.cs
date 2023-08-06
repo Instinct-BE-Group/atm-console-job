@@ -30,12 +30,12 @@
                         string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel");
                         Console.Clear();
 
-                        if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
+                        if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
                             // If pin is correct, proceed to Main Menu
                             verifiedPin = pin;
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
-                            ChangePIN();
+                            ChangePIN(cardNumber);
                         }
                         else
                         {
@@ -54,8 +54,8 @@
                         {
                             // If pin is correct, proceed to Main Menu
                             verifiedPin = pin;
-                            DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
-                            MainOperation();
+                            DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
+                            MainOperation(cardNumber);
                         }
                     }
                     else
@@ -69,48 +69,60 @@
 
         }
 
-        static void MainOperation()
+        static void MainOperation(string? cardNumber)
         {
-            // Main Menu (Screen 5)
-            bool continueTransaction = true;
-            while (continueTransaction)
+            if
+                (string.IsNullOrEmpty(cardNumber))
             {
-                int option = ShowMainMenu();
-
-                switch (option)
-                {
-                    case 1:
-                        OpenAccount();
-                        break;
-                    case 2:
-                        WithdrawCash();
-                        break;
-                    case 3:
-                        ChangePIN();
-                        break;
-                    case 4:
-                        CheckBalance();
-                        break;
-                    case 5:
-                        TransferMoney();
-                        break;
-                    case 6:
-                        QuickTeller();
-                        break;
-                    case 7:
-                        PayArena();
-                        break;
-                    case 8:
-                        continueTransaction = false;
-                        break;
-                    default:
-                        DisplayMessage("Invalid option. Please try again.");
-                        Console.Clear();
-                        // got to welcome screen
-                        break;
-                }
+                Console.Clear();
+                // Handle null cardNumber, such as displaying an error message.
+                DisplayMessage("Invalid Card number, cannot proceed.");
+                return;
             }
+            else
+            {
+                // Main Menu (Screen 5)
+                bool continueTransaction = true;
+                while (continueTransaction)
+                {
+                    int option = ShowMainMenu();
 
+                    switch (option)
+                    {
+                        case 1:
+                            OpenAccount(cardNumber);
+                            break;
+                        case 2:
+                            WithdrawCash();
+                            break;
+                        case 3:
+                            ChangePIN(cardNumber);
+                            break;
+                        case 4:
+                            CheckBalance(cardNumber);
+                            break;
+                        case 5:
+                            TransferMoney();
+                            break;
+                        case 6:
+                            QuickTeller();
+                            break;
+                        case 7:
+                            PayArena();
+                            break;
+                        case 8:
+                            continueTransaction = false;
+                            break;
+                        default:
+                            DisplayMessage("Invalid option. Please try again.");
+                            Console.Clear();
+                            // got to welcome screen
+                            break;
+                    }
+
+                }
+
+            }
             // End of transaction
             DisplayMessage("Thank you for using our ATM. Please take your card.");
         }
@@ -125,8 +137,6 @@
             Console.Write(prompt);
             return Console.ReadLine();
         }
-
-
 
         static bool VerifyCustomer(string? cardNumber, string? pin)
         {
@@ -190,7 +200,7 @@
             while (true)
             {
                 string? input = GetInput("Enter your choice (1-8): ");
-                if (int.TryParse(input, out int option) && option >= 1 && option <= 8)
+                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int option) && option >= 1 && option <= 8)
                 {
                     Console.Clear();
                     return option;
@@ -199,7 +209,7 @@
             }
         }
 
-        static void OpenAccount()
+        static void OpenAccount(string? cardNumber)
         {
             DisplayMessage("Open Account");
             // Implement logic for the Open Account process
@@ -214,18 +224,60 @@
             // Including card type selection, amount selection, and cross-selling options
         }
 
-        static void ChangePIN()
+        static void ChangePIN(string cardNumber)
         {
             DisplayMessage("Change Pin");
             // Implement logic for the Change PIN process
             // Including inputting old PIN, inputting new PIN, and confirming new PIN
+            // Find the account holder based on the card number
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+
+            if (accountHolder != null)
+            {
+                string? oldPIN = GetInput("Enter your old PIN: ");
+                if (oldPIN == accountHolder.PIN)
+                {
+                    string? newPIN = GetInput("Enter your new PIN: ");
+                    string? confirmNewPIN = GetInput("Confirm your new PIN: ");
+
+                    if (newPIN == confirmNewPIN)
+                    {
+                        // Update the PIN
+                        accountHolder.PIN = newPIN;
+                        DisplayMessage("PIN successfully changed.");
+                    }
+                    else
+                    {
+                        DisplayMessage("PINs do not match. PIN change failed.");
+                    }
+                }
+                else
+                {
+                    DisplayMessage("Incorrect old PIN. PIN change failed.");
+                }
+            }
+            else
+            {
+                DisplayMessage("Account not found.");
+            }
         }
 
-        static void CheckBalance()
+        static void CheckBalance(string cardNumber)
         {
-            DisplayMessage("Withdraw Cash");
+            DisplayMessage("Check Balance");
+            // Find the account holder based on the card number
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
             // Implement logic for the Check Balance process
             // Including card type selection and displaying account name and balance
+            if (accountHolder != null)
+            {
+                DisplayMessage($"Account Name: {accountHolder.AccountName}");
+                DisplayMessage($"Account Balance: {accountHolder.AccountBalance:C}");
+            }
+            else
+            {
+                DisplayMessage("Account not found.");
+            }
         }
 
         static void TransferMoney()
