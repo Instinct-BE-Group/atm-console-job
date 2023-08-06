@@ -49,7 +49,7 @@
                         Console.Clear();
                         // Screen 4: Please enter your pin
                         string? pin = GetInput("Please enter your PIN: ");
-                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel");
+                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
                         // If "Enter Pin" option is chosen, proceed directly to Main Menu
                         if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
@@ -241,6 +241,15 @@
             }
         }
 
+        public string RandomDigits(int length)
+        {
+            var random = new Random();
+            string s = string.Empty;
+            for (int i = 0; i < length; i++)
+                s = String.Concat(s, random.Next(10).ToString());
+            return s;
+        }
+
         static void OpenAccount(string? cardNumber)
         {
             DisplayMessage("Open Account");
@@ -265,15 +274,15 @@
 
                     if (!string.IsNullOrEmpty(otp) && otp.Length == 6)
                     {
-                        int accNumber = 0;
-                        Random rnd = new Random();
 
-                        for (int j = 0; j < 4; j++)
-                        {
-                            accNumber = rnd.Next();
-                        }
+                        var random = new Random();
+                        string accNumber = string.Empty;
+                        for (int i = 0; i < 8; i++)
+                            accNumber = String.Concat(accNumber, random.Next(8).ToString());
+                        // return s;
 
-                        DisplayMessage($"Congratulations {accountHolder.AccountName}, your account has been created your account Number is {accNumber}");
+                        DisplayMessage($"\nCongratulations {accountHolder.AccountName}");
+                        DisplayMessage($"\nYour account has been created your account Number is 00{accNumber}\n");
                     }
                 }
 
