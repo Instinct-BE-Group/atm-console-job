@@ -92,7 +92,7 @@
                             OpenAccount(cardNumber);
                             break;
                         case 2:
-                            WithdrawCash();
+                            WithdrawCash(cardNumber);
                             break;
                         case 3:
                             ChangePIN(cardNumber);
@@ -236,9 +236,7 @@
                 else
                 {
                     DisplayMessage("Invalid input. Please enter a valid option (1-8).");
-
                 }
-
             }
         }
         c
@@ -249,12 +247,136 @@
             // Including BVN verification, OTP verification, etc.
         }
 
-        static void WithdrawCash()
+        static void WithdrawCash(string? cardNumber)
         {
             DisplayMessage("Withdraw Cash");
 
             // Implement logic for the Withdraw Cash process
             // Including card type selection, amount selection, and cross-selling options
+            // Find the account holder based on the card number
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+
+            if (accountHolder != null)
+            {
+                // Select Card Type
+                DisplayMessage("Select card type\n");
+                DisplayMessage("1. Current\n");
+                DisplayMessage("2. Savings\n");
+                DisplayMessage("3. Credit\n");
+
+                string? input = Console.ReadLine();
+
+                if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
+                {
+                    string? selectedCardType = GetCardType(value);
+
+                    if (selectedCardType != null && selectedCardType == accountHolder.CardType)
+                    {
+                        // Display available withdrawal amounts
+                        DisplayMessage("Available withdrawal amounts:");
+                        DisplayMessage("1. ₦500");
+                        DisplayMessage("2. ₦1000");
+                        DisplayMessage("3. ₦2000");
+                        DisplayMessage("4. ₦5000");
+                        DisplayMessage("5. ₦10000");
+                        DisplayMessage("6. ₦20000");
+                        DisplayMessage("7. ₦40000");
+                        DisplayMessage("8. Others");
+
+                        string? withdrawalOption = GetInput("Select an option (1-8): ");
+
+                        if (int.TryParse(withdrawalOption, out int option) && option >= 1 && option <= 8)
+                        {
+                            decimal withdrawalAmount = 0;
+                            if (option < 8)
+                            {
+                                switch (option)
+                                {
+                                    case 1: withdrawalAmount = 500; break;
+                                    case 2: withdrawalAmount = 1000; break;
+                                    case 3: withdrawalAmount = 2000; break;
+                                    case 4: withdrawalAmount = 5000; break;
+                                    case 5: withdrawalAmount = 10000; break;
+                                    case 6: withdrawalAmount = 20000; break;
+                                    case 7: withdrawalAmount = 40000; break;
+                                }
+
+                                if (withdrawalAmount > accountHolder.AccountBalance)
+                                {
+                                    DisplayMessage("Insufficient Balance.");
+                                }
+                                else
+                                {
+                                    DisplayMessage($"Take your cash: ₦{withdrawalAmount:N2}");
+
+                                    string? rechargeOption = GetInput("Do you want to recharge your phone? (yes/no): ");
+                                    if (rechargeOption?.ToLower() == "yes")
+                                    {
+                                        DisplayMessage("Okay");
+                                    }
+                                    else
+                                    {
+                                        string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
+                                        if (anotherTransactionOption?.ToLower() == "no")
+                                        {
+                                            DisplayMessage("Thank you for using our ATM. Please take your card.");
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                            else // Others
+                            {
+                                decimal enteredAmount = 0;
+                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500): ");
+
+                                if (decimal.TryParse(amountInput, out enteredAmount) && enteredAmount % 500 == 0)
+                                {
+                                    if (enteredAmount > accountHolder.AccountBalance)
+                                    {
+                                        DisplayMessage("Insufficient Balance.");
+                                    }
+                                    else
+                                    {
+                                        DisplayMessage($"Take your cash: ₦{enteredAmount:N2}");
+
+                                        string? rechargeOption = GetInput("Do you want to recharge your phone? (yes/no): ");
+                                        if (rechargeOption?.ToLower() == "yes")
+                                        {
+                                            DisplayMessage("Okay");
+                                        }
+                                        else
+                                        {
+                                            string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
+                                            if (anotherTransactionOption?.ToLower() == "no")
+                                            {
+                                                DisplayMessage("Thank you for using our ATM. Please take your card.");
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    DisplayMessage("Invalid amount. Please enter a valid amount in multiples of ₦500.");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            DisplayMessage("Invalid option. Please select a valid option (1-8).");
+                        }
+                    }
+                    else
+                    {
+                        DisplayMessage($"Wrong card type");
+                    }
+                }
+            }
+            else
+            {
+                DisplayMessage("Issuer error.");
+            }
         }
 
         static void ChangePIN(string cardNumber)
