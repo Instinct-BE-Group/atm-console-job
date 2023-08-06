@@ -507,7 +507,6 @@
                 DisplayMessage("3. CREDIT");
                 int selcetCardType = Convert.ToInt32(Console.ReadLine());
 
-
                 //select a payment option
                 Console.Clear();
                 Console.WriteLine("Please select a payment option");
