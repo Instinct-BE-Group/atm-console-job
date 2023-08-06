@@ -467,9 +467,6 @@
 
             if (accountHolder != null)
             {
-
-
-                DisplayMessage("\n\n  QUICKTELLER  \n\n");
                 //Display Options
                 DisplayMessage("PLEASE SELECT OPTION");
                 DisplayMessage("1. AIRTIME RECHARGE");
