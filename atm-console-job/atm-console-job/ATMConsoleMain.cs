@@ -325,7 +325,7 @@
                                     }
                                 }
                             }
-                            else if (option == 8) // Others
+                            else // Others
                             {
                                 decimal enteredAmount = 0;
                                 string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500): ");
@@ -361,7 +361,6 @@
                                     DisplayMessage("Invalid amount. Please enter a valid amount in multiples of ₦500.");
                                 }
                             }
-                            else { }
                         }
                         else
                         {
