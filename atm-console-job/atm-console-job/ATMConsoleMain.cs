@@ -33,7 +33,6 @@
                         if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
                             // If pin is correct, proceed to change Pin
-
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
                             ChangePIN(cardNumber);
                         }
