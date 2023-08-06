@@ -12,28 +12,29 @@
             string? cardNumber = GetInput("Enter your Card Number: ");
 
             // Verify the card number and PIN
-            string? verifiedPin = null;
+            // string? verifiedPin = null;
 
             foreach (var item in AccountData.accountHolders)
             {
                 if (cardNumber == item.CardNumber)
                 {
                     Console.Clear();
+                    // Please Select your pin entry mode
                     string? pinEntryMode = GetPinEntryMode();
 
-                    // Please Select your pin entry mode
+
                     if (pinEntryMode == "1")
                     {
                         Console.Clear();
                         // Please enter your pin
                         string? pin = GetInput("Please enter your old PIN: ");
-                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel");
+                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
                         Console.Clear();
 
                         if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
                             // If pin is correct, proceed to Main Menu
-                            verifiedPin = pin;
+                            // verifiedPin = pin;
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
                             ChangePIN(cardNumber);
                         }
@@ -53,7 +54,7 @@
                         if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
                             // If pin is correct, proceed to Main Menu
-                            verifiedPin = pin;
+                            // verifiedPin = pin;
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
                             MainOperation(cardNumber);
                         }
@@ -239,11 +240,49 @@
                 }
             }
         }
-        c
+
         static void OpenAccount(string? cardNumber)
         {
             DisplayMessage("Open Account");
             // Implement logic for the Open Account process
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+
+            if (accountHolder != null)
+            {
+                DisplayMessage("Select Account Type");
+                DisplayMessage("1. Current");
+                DisplayMessage("2. Savings");
+
+                string? accountType = Console.ReadLine();
+
+                DisplayMessage("Input your BVN");
+                string? bvn = Console.ReadLine();
+
+                if (bvn == accountHolder.BVN)
+                {
+                    DisplayMessage("Input the OTP sent to your registered phone number");
+                    string? otp = Console.ReadLine();
+
+                    if (!string.IsNullOrEmpty(otp) && otp.Length == 6)
+                    {
+                        int accNumber = 0;
+                        Random rnd = new Random();
+
+                        for (int j = 0; j < 4; j++)
+                        {
+                            accNumber = rnd.Next();
+                        }
+
+                        DisplayMessage($"Congratulations {accountHolder.AccountName}, your account has been created your account Number is {accNumber}");
+                    }
+                }
+
+
+            }
+            else
+            {
+                DisplayMessage("No Account Found");
+            }
             // Including BVN verification, OTP verification, etc.
         }
 
