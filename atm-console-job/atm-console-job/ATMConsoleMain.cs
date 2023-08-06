@@ -83,10 +83,9 @@
             {
                 // Main Menu (Screen 5)
                 bool continueTransaction = true;
-                while (continueTransaction)
+                do
                 {
                     int option = ShowMainMenu();
-
                     switch (option)
                     {
                         case 1:
@@ -114,14 +113,28 @@
                             continueTransaction = false;
                             break;
                         default:
-                            DisplayMessage("Invalid option. Please try again.");
                             Console.Clear();
-                            // got to welcome screen
+                            DisplayMessage("Invalid option. Please try again.");
+                            continueTransaction = true;
                             break;
                     }
 
-                }
+                    //do you want to perform another transaction
+                    if (continueTransaction)
+                    {
+                        DisplayMessage("Do you want to perform another transaction? (yes/no): ");
+                        string? response = GetInput("");
+                        if (response?.Trim().ToLower() != "yes")
+                        {
+                            continueTransaction = false;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                        }
+                    }
 
+                } while (continueTransaction);
             }
             // End of transaction
             DisplayMessage("Thank you for using our ATM. Please take your card.");
@@ -184,6 +197,21 @@
             return "Account Not Found";
         }
 
+        static string GetCardType(int value)
+        {
+            switch (value)
+            {
+                case 1:
+                    return "Current";
+                case 2:
+                    return "Savings";
+                case 3:
+                    return "Credit";
+                default:
+                    return "";
+            }
+        }
+
         static int ShowMainMenu()
         {
             // Implement logic to display and get the main menu option chosen by the user
@@ -205,7 +233,12 @@
                     Console.Clear();
                     return option;
                 }
-                DisplayMessage("Invalid input. Please enter a valid option (1-8).");
+                else
+                {
+                    DisplayMessage("Invalid input. Please enter a valid option (1-8).");
+
+                }
+
             }
         }
 
@@ -227,8 +260,6 @@
         static void ChangePIN(string cardNumber)
         {
             DisplayMessage("Change Pin");
-            // Implement logic for the Change PIN process
-            // Including inputting old PIN, inputting new PIN, and confirming new PIN
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
@@ -267,12 +298,32 @@
             DisplayMessage("Check Balance");
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
-            // Implement logic for the Check Balance process
+
             // Including card type selection and displaying account name and balance
             if (accountHolder != null)
             {
-                DisplayMessage($"Account Name: {accountHolder.AccountName}");
-                DisplayMessage($"Account Balance: {accountHolder.AccountBalance:C}");
+                // Select Card Type
+                DisplayMessage("Select card type\n");
+                DisplayMessage("1. Current\n");
+                DisplayMessage("2. Savings\n");
+                DisplayMessage("3. Credit\n");
+
+                string? input = Console.ReadLine();
+
+                if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
+                {
+                    string? selectedCardType = GetCardType(value);
+
+                    if (selectedCardType != null && selectedCardType == accountHolder.CardType)
+                    {
+                        DisplayMessage($"Account Name: {accountHolder.AccountName}");
+                        DisplayMessage($"Account Balance: ₦{accountHolder.AccountBalance:N2}");
+                    }
+                    else
+                    {
+                        DisplayMessage($"Wrong card type");
+                    }
+                }
             }
             else
             {
