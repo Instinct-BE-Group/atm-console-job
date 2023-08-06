@@ -12,7 +12,6 @@
             string? cardNumber = GetInput("Enter your Card Number: ");
 
             // Verify the card number and PIN
-            // string? verifiedPin = null;
 
             foreach (var item in AccountData.accountHolders)
             {
@@ -33,8 +32,8 @@
 
                         if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
-                            // If pin is correct, proceed to Main Menu
-                            // verifiedPin = pin;
+                            // If pin is correct, proceed to change Pin
+
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
                             ChangePIN(cardNumber);
                         }
@@ -54,7 +53,7 @@
                         if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
                         {
                             // If pin is correct, proceed to Main Menu
-                            // verifiedPin = pin;
+
                             DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
                             MainOperation(cardNumber);
                         }
