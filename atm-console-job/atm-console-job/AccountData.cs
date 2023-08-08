@@ -15,6 +15,7 @@
     // Create a list to store the account holders' details
     static class AccountData
     {
+
         public static List<AccountHolder> accountHolders = new List<AccountHolder>
         {
             new AccountHolder
@@ -50,3 +51,6 @@
         };
     }
 }
+
+
+
