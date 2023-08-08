@@ -628,11 +628,137 @@
             }
         }
 
-        static void PayArena()
+        static void PayArena(string? cardNumber)
         {
-            DisplayMessage("Pay Arena");
-            // Implement logic for the Pay Bills process
-            // Including card type selection, inputting amount, bill type selection, validation, etc.
+            DisplayMessage("PayArena");
+            // Find the account holder based on the card number
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+
+            if (accountHolder != null)
+            {
+                DisplayMessage("\n---------Pay Arena---------\n");
+                // Implement logic for the Pay Bills process
+                // Including card type selection, inputting amount, bill type selection, validation, etc.
+                //Display Options
+                DisplayMessage("PLEASE SELECT OPTION");
+                DisplayMessage("1. AIRTIME RECHARGE");
+                DisplayMessage("2. BILL PAYMENT");
+                DisplayMessage("3. MONEY TRANSFER");
+                string[] payarena = { "NONE", "1. AIRTIME RECHARGE", "2. BILL PAYMENT", "3. MONEY TRANSFER" };
+                // convert the string input to int and use tryparse to handle errors
+                int input = Convert.ToInt32(Console.ReadLine());
+                int output;
+                //SELECT MENU OPTION
+                for (int b = 0; b < payarena.Length; b++)
+                {
+                    //Console.WriteLine(item);
+                    if (input == b)
+                    {
+
+                        output = b;
+                        //print result
+                        Console.Clear();
+                        Console.WriteLine(payarena[output]);
+
+                    }
+
+                }
+                //airtime rech option chosen
+                //select option for account type
+                Console.WriteLine("Please select your account type");
+                DisplayMessage("1. CURRENT");
+                DisplayMessage("2. SAVINGS");
+                DisplayMessage("3. CREDIT");
+                int selcetCardType = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine("Please select your account type");
+                DisplayMessage("1. CURRENT");
+                DisplayMessage("2. SAVINGS");
+                DisplayMessage("3. CREDIT");
+
+                //select an option
+                Console.Clear();
+                Console.WriteLine("Please select an option");
+                DisplayMessage("1. AIRTEL");
+                DisplayMessage("2. MTN");
+                DisplayMessage("3. GLO");
+                DisplayMessage("4. ETISALAT");
+                DisplayMessage("5. SMILE");
+                int selectOption = Convert.ToInt32(Console.ReadLine());
+                if (selectOption != null)
+                {
+
+                }
+
+                //select airtime amount
+                Console.Clear();
+                Console.WriteLine("Please select the airtime amount");
+                DisplayMessage("1. N 100");
+                DisplayMessage("2. N 200");
+                DisplayMessage("3. N 500");
+                DisplayMessage("4. N 1000");
+                DisplayMessage("5. N 1500");
+                DisplayMessage("6. OTHER");
+
+                int airtimeamount = Convert.ToInt32(Console.ReadLine());
+                if (airtimeamount > accountHolder.AccountBalance)
+                {
+                    DisplayMessage("             ");
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{airtimeamount}");
+                    Console.Clear();
+                    string[] airtime = { "NONE", "1. N 100", "2. N 200", "3. N 500", "4. N 1000", "5. N 1500", "6. OTHER" };
+                    Console.WriteLine("Please enter the phone number you wish to recharge");
+                    //Input your phone number
+                    string? phoneNumber = Console.ReadLine();
+                    if (phoneNumber != null && phoneNumber.Length == 11 && int.TryParse(phoneNumber, out int phoneNo))
+                    {
+                        Console.WriteLine("Airtime recharged successfully");
+                    }
+                    else
+                    {
+                        DisplayMessage("Insufficient fund");
+                    }
+                }
+
+            }
+
+
+
+
         }
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
