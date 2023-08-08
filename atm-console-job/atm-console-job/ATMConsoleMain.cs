@@ -106,7 +106,7 @@
                             QuickTeller(cardNumber);
                             break;
                         case 7:
-                            PayArena();
+                            PayArena(cardNumber);
                             break;
                         case 8:
                             continueTransaction = false;
