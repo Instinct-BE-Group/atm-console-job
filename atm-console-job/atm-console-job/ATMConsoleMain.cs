@@ -4,68 +4,146 @@
     {
         static void Main(string[] args)
         {
-            Console.Title = "Sterling Bank ATM - Team Instinct";
+            Console.Title = "Team Instinct";
             // Welcome screen
-            DisplayMessage("Welcome to Sterling Bank");
+            DisplayMessage("Welcome to Sterling Bank\n");
 
             // Customer Input - Card Number and PIN
-            string? cardNumber = GetInput("Enter your Card Number:");
+            string? cardNumber = GetInput("Enter your Card Number: ");
+            Console.Clear();
 
             // Verify the card number and PIN
+            AccountHolder? accountHolder = FindAccountHolder(cardNumber);
 
-            foreach (var item in AccountData.accountHolders)
+            if (accountHolder != null)
             {
-                if (cardNumber == item.CardNumber)
+                Console.Clear();
+                string? pinEntryMode = GetPinEntryMode();
+
+                if (pinEntryMode == "1")
                 {
-                    Console.Clear();
-                    // Please Select your pin entry mode
-                    string? pinEntryMode = GetPinEntryMode();
-
-
-                    if (pinEntryMode == "1")
-                    {
-                        Console.Clear();
-                        // Please enter your pin
-                        string? pin = GetInput("Please enter your old PIN: ");
-                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
-                        Console.Clear();
-
-                        if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
-                        {
-                            // If pin is correct, proceed to change Pin
-                            DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
-                            ChangePIN(cardNumber);
-                        }
-                        else
-                        {
-                            // If pin is incorrect or user cancels, end the transaction
-                            DisplayMessage("Invalid PIN. Thank you for using our ATM.");
-                        }
-                    }
-                    else if (pinEntryMode == "2")
-                    {
-                        Console.Clear();
-                        // Screen 4: Please enter your pin
-                        string? pin = GetInput("Please enter your PIN: ");
-                        string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
-                        // If "Enter Pin" option is chosen, proceed directly to Main Menu
-                        if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
-                        {
-                            // If pin is correct, proceed to Main Menu
-
-                            DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
-                            MainOperation(cardNumber);
-                        }
-                    }
-                    else
-                    {
-                        // Invalid input for pin entry mode, end the transaction
-                        DisplayMessage("Invalid input. Thank you for using our ATM.");
-                    }
+                    HandlePinEntryMode1(cardNumber);
                 }
-
+                else if (pinEntryMode == "2")
+                {
+                    HandlePinEntryMode2(cardNumber);
+                }
+                else
+                {
+                    DisplayMessage("Invalid input. Thank you for using our ATM.");
+                }
+            }
+            else
+            {
+                DisplayMessage("Card not found. Thank you for using our ATM.");
             }
 
+        }
+
+        static string? GetPinEntryMode()
+        {
+            // Display the PIN entry mode options
+            DisplayMessage("Please Select your PIN entry mode:");
+            DisplayMessage("1) Activate your card or Change Pin");
+            DisplayMessage("2) Enter Pin");
+
+            // Prompt the user for input and keep asking until a valid option is selected
+            while (true)
+            {
+                string? input = GetInput(" ");
+                if (input == "1" || input == "2")
+                {
+                    return input;
+                }
+                DisplayMessage("Invalid input. Please enter a valid option (1-2).");
+            }
+        }
+
+        static void HandlePinEntryMode1(string? cardNumber)
+        {
+            string? pin = GetInput("Please enter your old PIN: ");
+            string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
+            Console.Clear();
+
+            if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
+            {
+                DisplayMessage($"Welcome {GetAccountName(cardNumber)}");
+                ChangePIN(cardNumber);
+            }
+            else
+            {
+                DisplayMessage("Invalid PIN. Thank you for using our ATM.");
+            }
+        }
+
+        static void HandlePinEntryMode2(string? cardNumber)
+        {
+            string? pin = GetInput("Please enter your PIN: ");
+            string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
+
+            if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
+            {
+                DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
+                MainOperation(cardNumber);
+            }
+        }
+
+        static void DisplayMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        static string? GetInput(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine();
+        }
+
+        static bool VerifyCustomer(string? cardNumber, string? pin)
+        {
+            // Implement customer verification logic here
+            foreach (var item in AccountData.accountHolders)
+            {
+                if (item.CardNumber == cardNumber && item.PIN == pin)
+                {
+                    // Return true if customer is verified successfully, otherwise false
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static AccountHolder? FindAccountHolder(string? cardNumber)
+        {
+            return AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+        }
+
+        static string? GetAccountName(string? cardNumber)
+        {
+            // Implement logic to retrieve account name based on card number
+            foreach (var item in AccountData.accountHolders)
+            {
+                if (item.CardNumber == cardNumber)
+                {
+                    return item.AccountName;
+                }
+            }
+            return "Account Not Found";
+        }
+
+        static string GetAccountType(int value)
+        {
+            switch (value)
+            {
+                case 1:
+                    return "Current";
+                case 2:
+                    return "Savings";
+                case 3:
+                    return "Credit";
+                default:
+                    return "";
+            }
         }
 
         static void MainOperation(string? cardNumber)
@@ -80,7 +158,7 @@
             }
             else
             {
-                // Main Menu (Screen 5)
+                // Main Menu
                 bool continueTransaction = true;
                 do
                 {
@@ -112,9 +190,7 @@
                             continueTransaction = false;
                             break;
                         default:
-                            Console.Clear();
                             DisplayMessage("Invalid option. Please try again.");
-                            continueTransaction = true;
                             break;
                     }
 
@@ -137,78 +213,6 @@
             }
             // End of transaction
             DisplayMessage("Thank you for using our ATM. Please take your card.");
-        }
-
-        static void DisplayMessage(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        static string? GetInput(string prompt)
-        {
-            Console.Write(prompt);
-            return Console.ReadLine();
-        }
-
-        static bool VerifyCustomer(string? cardNumber, string? pin)
-        {
-            // Implement customer verification logic here
-            foreach (var item in AccountData.accountHolders)
-            {
-                if (item.CardNumber == cardNumber && item.PIN == pin)
-                {
-                    // Return true if customer is verified successfully, otherwise false
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        static string? GetPinEntryMode()
-        {
-            // Display the PIN entry mode options
-            DisplayMessage("Please Select your PIN entry mode:");
-            DisplayMessage("1) Activate your card or Change Pin");
-            DisplayMessage("2) Enter Pin");
-
-            // Prompt the user for input and keep asking until a valid option is selected
-            while (true)
-            {
-                string? input = GetInput("Enter your choice (1-2): ");
-                if (input == "1" || input == "2")
-                {
-                    return input;
-                }
-                DisplayMessage("Invalid input. Please enter a valid option (1-2).");
-            }
-        }
-
-        static string? GetAccountName(string? cardNumber)
-        {
-            // Implement logic to retrieve account name based on card number
-            foreach (var item in AccountData.accountHolders)
-            {
-                if (item.CardNumber == cardNumber)
-                {
-                    return item.AccountName;
-                }
-            }
-            return "Account Not Found";
-        }
-
-        static string GetCardType(int value)
-        {
-            switch (value)
-            {
-                case 1:
-                    return "Current";
-                case 2:
-                    return "Savings";
-                case 3:
-                    return "Credit";
-                default:
-                    return "";
-            }
         }
 
         static int ShowMainMenu()
@@ -248,7 +252,6 @@
             return s;
         }
 
-
         static void OpenAccount(string? cardNumber)
         {
             DisplayMessage("Open Account");
@@ -261,15 +264,13 @@
                 DisplayMessage("1. Current");
                 DisplayMessage("2. Savings");
 
-                string? accountType = Console.ReadLine();
+                string? accountType = GetInput("Enter your choice (1-2): ");
 
-                DisplayMessage("Input your BVN");
-                string? bvn = Console.ReadLine();
+                string? bvn = GetInput("Input your BVN: ");
 
                 if (bvn == accountHolder.BVN)
                 {
-                    DisplayMessage("Input the OTP sent to your registered phone number");
-                    string? otp = Console.ReadLine();
+                    string? otp = GetInput("Input the OTP sent to your registered phone number: ");
 
                     if (!string.IsNullOrEmpty(otp) && otp.Length == 6)
                     {
@@ -295,27 +296,26 @@
         static void WithdrawCash(string? cardNumber)
         {
             DisplayMessage("Withdraw Cash");
-
             // Implement logic for the Withdraw Cash process
-            // Including card type selection, amount selection, and cross-selling options
+            // Including Account type selection, amount selection, and cross-selling options
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
             if (accountHolder != null)
             {
-                // Select Card Type
-                DisplayMessage("Select card type\n");
+                // Select Account Type
+                DisplayMessage("Select Account type\n");
                 DisplayMessage("1. Current\n");
                 DisplayMessage("2. Savings\n");
                 DisplayMessage("3. Credit\n");
 
-                string? input = Console.ReadLine();
+                string? input = GetInput("Enter your choice (1-3): ");
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
-                    string? selectedCardType = GetCardType(value);
+                    string? selectedAccountType = GetAccountType(value);
 
-                    if (selectedCardType != null && selectedCardType == accountHolder.CardType)
+                    if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
                         // Display available withdrawal amounts
                         DisplayMessage("Available withdrawal amounts:");
@@ -414,7 +414,7 @@
                     }
                     else
                     {
-                        DisplayMessage($"Wrong card type");
+                        DisplayMessage($"Wrong account type");
                     }
                 }
             }
@@ -466,29 +466,29 @@
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
-            // Including card type selection and displaying account name and balance
+            // Including Account type selection and displaying account name and balance
             if (accountHolder != null)
             {
-                // Select Card Type
-                DisplayMessage("Select card type\n");
+                // Select Account Type
+                DisplayMessage("Select Account type\n");
                 DisplayMessage("1. Current\n");
                 DisplayMessage("2. Savings\n");
                 DisplayMessage("3. Credit\n");
 
-                string? input = Console.ReadLine();
+                string? input = GetInput("Enter your choice (1-3): ");
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
-                    string? selectedCardType = GetCardType(value);
+                    string? selectedAccountType = GetAccountType(value);
 
-                    if (selectedCardType != null && selectedCardType == accountHolder.CardType)
+                    if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
                         DisplayMessage($"Account Name: {accountHolder.AccountName}");
                         DisplayMessage($"Account Balance: ₦{accountHolder.AccountBalance:N2}");
                     }
                     else
                     {
-                        DisplayMessage($"Wrong card type");
+                        DisplayMessage($"Wrong Account type");
                     }
                 }
             }
@@ -501,25 +501,23 @@
         static void TransferMoney(string? cardNumber)
         {
             DisplayMessage("Transfer Money");
-            // Implement logic for the Transfer Money process
-            // Including card type selection, inputting amount, beneficiary account, beneficiary bank, etc.
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
             if (accountHolder != null)
             {
-                // Select Card Type
-                DisplayMessage("Select card type\n");
-                DisplayMessage("1. Master Card");
-                DisplayMessage("2. Verve Card");
-                DisplayMessage("3. Visa Card");
+                // Select Account Type
+                DisplayMessage("Select Account type\n");
+                DisplayMessage("1. CURRENT");
+                DisplayMessage("2. SAVINGS");
+                DisplayMessage("3. CREDIT");
 
-                string? input = Console.ReadLine();
+                string? input = GetInput("Enter your choice (1-3): ");
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
 
-                    string? amount = GetInput("Enter amount:");
-                    string? beneficiaryaccountnumber = GetInput("Enter beneficiary account number:");
+                    string? amount = GetInput("Enter amount: ");
+                    string? beneficiaryaccountnumber = GetInput("Enter beneficiary account number: ");
 
                     if (!string.IsNullOrEmpty(amount) && !string.IsNullOrEmpty(beneficiaryaccountnumber) && beneficiaryaccountnumber.Length == 10)
                     {
@@ -554,7 +552,7 @@
                 }
                 else
                 {
-                    DisplayMessage($"Wrong card type");
+                    DisplayMessage($"Wrong account type");
                 }
             }
         }
@@ -585,16 +583,13 @@
                 //SELECT MENU OPTION
                 for (int i = 0; i < quickteller.Length; i++)
                 {
-
                     //Console.WriteLine(item);
                     if (input == i)
                     {
-
                         output = i;
                         //print result
                         Console.Clear();
                         Console.WriteLine(quickteller[output]);
-
                     }
                 }
                 //paybills option chosen
@@ -618,11 +613,6 @@
                 DisplayMessage("7. DIESEL PURCHASE");
                 DisplayMessage("8. MORE");
                 int paymentOption = Convert.ToInt32(Console.ReadLine());
-
-                //if (paymentOption != null)
-                //{
-
-                //}
 
                 //select the package you wish to pay for
                 Console.Clear();

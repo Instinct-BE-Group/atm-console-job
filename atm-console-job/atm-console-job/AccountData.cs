@@ -7,7 +7,7 @@
         public string? AccountName { get; set; }
         public decimal AccountBalance { get; set; }
         public string? CardNumber { get; set; }
-        public string? CardType { get; set; }
+        public string? AccountType { get; set; }
         public string? PIN { get; set; }
         public string? BVN { get; set; }
     }
@@ -24,7 +24,7 @@
                 AccountName = "Tunde Mufasa",
                 AccountBalance = 20000000,
                 CardNumber = "0000900200190000",
-                CardType =  "Current",
+                AccountType =  "Current",
                 PIN = "2023",
                 BVN = "22289012340"
             },
@@ -34,7 +34,7 @@
                 AccountName = "Akpororo Abdul",
                 AccountBalance = 10000,
                 CardNumber = "0000900200150000",
-                CardType =  "Savings",
+                AccountType =  "Savings",
                 PIN = "2021",
                 BVN = "22289018701"
             },
@@ -44,7 +44,7 @@
                 AccountName = "Chinazam Obi",
                 AccountBalance = 61000,
                 CardNumber = "0000900203500000",
-                CardType =  "Savings",
+                AccountType =  "Savings",
                 PIN = "1234",
                 BVN = "22289019550"
             }
