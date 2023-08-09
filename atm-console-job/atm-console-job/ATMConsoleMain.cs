@@ -1,6 +1,4 @@
-﻿using static System.Net.WebRequestMethods;
-
-namespace atm_console_job
+﻿namespace atm_console_job
 {
     internal class ATMConsoleMain
     {
@@ -509,7 +507,7 @@ namespace atm_console_job
             // Including card type selection, inputting amount, beneficiary account, beneficiary bank, etc.
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
-            if(accountHolder != null)
+            if (accountHolder != null)
             {
                 // Select Card Type
                 DisplayMessage("Select card type\n");
@@ -720,9 +718,7 @@ namespace atm_console_job
                         //print result
                         Console.Clear();
                         Console.WriteLine(payarena[output]);
-
                     }
-
                 }
                 //airtime rech option chosen
                 //select option for account type
@@ -746,10 +742,6 @@ namespace atm_console_job
                 DisplayMessage("4. ETISALAT");
                 DisplayMessage("5. SMILE");
                 int selectOption = Convert.ToInt32(Console.ReadLine());
-                if (selectOption != null)
-                {
-
-                }
 
                 //select airtime amount
                 Console.Clear();
