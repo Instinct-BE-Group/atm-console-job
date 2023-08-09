@@ -6,10 +6,11 @@
         {
             Console.Title = "Team Instinct";
             // Welcome screen
-            DisplayMessage("Welcome to Sterling Bank");
+            DisplayMessage("Welcome to Sterling Bank\n");
 
             // Customer Input - Card Number and PIN
-            string? cardNumber = GetInput("Enter your Card Number:");
+            string? cardNumber = GetInput("Enter your Card Number: ");
+            Console.Clear();
 
             // Verify the card number and PIN
             AccountHolder? accountHolder = FindAccountHolder(cardNumber);
@@ -39,6 +40,25 @@
 
         }
 
+        static string? GetPinEntryMode()
+        {
+            // Display the PIN entry mode options
+            DisplayMessage("Please Select your PIN entry mode:");
+            DisplayMessage("1) Activate your card or Change Pin");
+            DisplayMessage("2) Enter Pin");
+
+            // Prompt the user for input and keep asking until a valid option is selected
+            while (true)
+            {
+                string? input = GetInput(" ");
+                if (input == "1" || input == "2")
+                {
+                    return input;
+                }
+                DisplayMessage("Invalid input. Please enter a valid option (1-2).");
+            }
+        }
+
         static void HandlePinEntryMode1(string? cardNumber)
         {
             string? pin = GetInput("Please enter your old PIN: ");
@@ -65,6 +85,64 @@
             {
                 DisplayMessage($"Welcome {GetAccountName(cardNumber)}\n");
                 MainOperation(cardNumber);
+            }
+        }
+
+        static void DisplayMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        static string? GetInput(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine();
+        }
+
+        static bool VerifyCustomer(string? cardNumber, string? pin)
+        {
+            // Implement customer verification logic here
+            foreach (var item in AccountData.accountHolders)
+            {
+                if (item.CardNumber == cardNumber && item.PIN == pin)
+                {
+                    // Return true if customer is verified successfully, otherwise false
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static AccountHolder? FindAccountHolder(string? cardNumber)
+        {
+            return AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+        }
+
+        static string? GetAccountName(string? cardNumber)
+        {
+            // Implement logic to retrieve account name based on card number
+            foreach (var item in AccountData.accountHolders)
+            {
+                if (item.CardNumber == cardNumber)
+                {
+                    return item.AccountName;
+                }
+            }
+            return "Account Not Found";
+        }
+
+        static string GetAccountType(int value)
+        {
+            switch (value)
+            {
+                case 1:
+                    return "Current";
+                case 2:
+                    return "Savings";
+                case 3:
+                    return "Credit";
+                default:
+                    return "";
             }
         }
 
@@ -137,83 +215,6 @@
             DisplayMessage("Thank you for using our ATM. Please take your card.");
         }
 
-        static void DisplayMessage(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        static string? GetInput(string prompt)
-        {
-            Console.Write(prompt);
-            return Console.ReadLine();
-        }
-
-        static bool VerifyCustomer(string? cardNumber, string? pin)
-        {
-            // Implement customer verification logic here
-            foreach (var item in AccountData.accountHolders)
-            {
-                if (item.CardNumber == cardNumber && item.PIN == pin)
-                {
-                    // Return true if customer is verified successfully, otherwise false
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        static AccountHolder? FindAccountHolder(string? cardNumber)
-        {
-            return AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
-        }
-
-        static string? GetAccountName(string? cardNumber)
-        {
-            // Implement logic to retrieve account name based on card number
-            foreach (var item in AccountData.accountHolders)
-            {
-                if (item.CardNumber == cardNumber)
-                {
-                    return item.AccountName;
-                }
-            }
-            return "Account Not Found";
-        }
-
-        static string GetAccountType(int value)
-        {
-            switch (value)
-            {
-                case 1:
-                    return "Current";
-                case 2:
-                    return "Savings";
-                case 3:
-                    return "Credit";
-                default:
-                    return "";
-            }
-        }
-
-        static string? GetPinEntryMode()
-        {
-            // Display the PIN entry mode options
-            DisplayMessage("Please Select your PIN entry mode:");
-            DisplayMessage("1) Activate your card or Change Pin");
-            DisplayMessage("2) Enter Pin");
-
-            // Prompt the user for input and keep asking until a valid option is selected
-            while (true)
-            {
-                string? input = GetInput("Enter your choice (1-2): ");
-                if (input == "1" || input == "2")
-                {
-                    return input;
-                }
-                DisplayMessage("Invalid input. Please enter a valid option (1-2).");
-            }
-        }
-
         static int ShowMainMenu()
         {
             // Implement logic to display and get the main menu option chosen by the user
@@ -250,7 +251,6 @@
                 s = String.Concat(s, random.Next(10).ToString());
             return s;
         }
-
 
         static void OpenAccount(string? cardNumber)
         {
@@ -550,16 +550,13 @@
                         {
                             DisplayMessage("Failed Transaction!");
                         }
-
                     }
                 }
                 else
                 {
                     DisplayMessage($"Wrong account type");
                 }
-
             }
-
         }
         static void QuickTeller(string? cardNumber)
         {
