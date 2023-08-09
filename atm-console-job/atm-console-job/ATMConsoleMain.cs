@@ -1,4 +1,6 @@
-﻿namespace atm_console_job
+﻿using static System.Net.WebRequestMethods;
+
+namespace atm_console_job
 {
     internal class ATMConsoleMain
     {
@@ -9,7 +11,7 @@
             DisplayMessage("Welcome to Sterling Bank");
 
             // Customer Input - Card Number and PIN
-            string? cardNumber = GetInput("Enter your Card Number: ");
+            string? cardNumber = GetInput("Enter your Card Number:");
 
             // Verify the card number and PIN
 
@@ -100,7 +102,7 @@
                             CheckBalance(cardNumber);
                             break;
                         case 5:
-                            TransferMoney();
+                            TransferMoney(cardNumber);
                             break;
                         case 6:
                             QuickTeller(cardNumber);
@@ -500,11 +502,70 @@
             }
         }
 
-        static void TransferMoney()
+        static void TransferMoney(string? cardNumber)
         {
             DisplayMessage("Transfer Money");
             // Implement logic for the Transfer Money process
             // Including card type selection, inputting amount, beneficiary account, beneficiary bank, etc.
+            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
+
+            if(accountHolder != null)
+            {
+                // Select Card Type
+                DisplayMessage("Select card type\n");
+                DisplayMessage("1. Master Card");
+                DisplayMessage("2. Verve Card");
+                DisplayMessage("3. Visa Card");
+
+                string? input = Console.ReadLine();
+
+                if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
+                {
+
+                    string? amount = GetInput("Enter amount:");
+                    string? beneficiaryaccountnumber = GetInput("Enter beneficiary account number:");
+
+                    if (!string.IsNullOrEmpty(amount) && !string.IsNullOrEmpty(beneficiaryaccountnumber) && beneficiaryaccountnumber.Length == 10)
+                    {
+                        DisplayMessage("Select bank type\n");
+                        DisplayMessage("1. Access Diamond");
+                        DisplayMessage("2. Key Stone Bank");
+                        DisplayMessage("3. United Bank Of Africa");
+                        DisplayMessage("4. Fidelity Bank");
+                        DisplayMessage("5. First Bank");
+                        DisplayMessage("6. Sterling Bank");
+                        DisplayMessage("7. Polaris Bank");
+                        DisplayMessage("8. Providous Bank");
+                        DisplayMessage("9. Standard Trust");
+                        DisplayMessage("10. Zenith Bank");
+                        DisplayMessage("11. Guaranty Trust Bank");
+
+                        string? banks = Console.ReadLine();
+                        if (banks != null && int.TryParse(banks, out int options) && options >= 1 && options <= 11)
+                        {
+                            int.TryParse(amount, out int transferamount);
+                            decimal balance = accountHolder.AccountBalance;
+                            decimal balanceleft = balance - transferamount;
+
+                            DisplayMessage("Transaction successful!");
+                            DisplayMessage($"Your new balance is {balanceleft}");
+                        }
+                        else
+                        {
+                            DisplayMessage("Failed Transaction!");
+                        }
+
+                    }
+
+
+                }
+                else
+                {
+                    DisplayMessage($"Wrong card type");
+                }
+
+            }
+
         }
         static void QuickTeller(string? cardNumber)
         {
@@ -567,10 +628,10 @@
                 DisplayMessage("8. MORE");
                 int paymentOption = Convert.ToInt32(Console.ReadLine());
 
-                if (paymentOption != null)
-                {
+                //if (paymentOption != null)
+                //{
 
-                }
+                //}
 
                 //select the package you wish to pay for
                 Console.Clear();
