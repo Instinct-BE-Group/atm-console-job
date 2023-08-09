@@ -453,3 +453,5 @@ $RECYCLE.BIN/
 
 # JetBrains Rider
 *.sln.iml
+/atm-console-job/atm-console-job/ATMConsoleMain.cs
+/atm-console-job/atm-console-job/AccountData.cs
