@@ -284,8 +284,6 @@
                         DisplayMessage($"\nYour account has been created your account Number is 00{accNumber}\n");
                     }
                 }
-
-
             }
             else
             {
@@ -552,18 +550,13 @@
                         {
                             DisplayMessage("Failed Transaction!");
                         }
-
                     }
-
-
                 }
                 else
                 {
                     DisplayMessage($"Wrong card type");
                 }
-
             }
-
         }
         static void QuickTeller(string? cardNumber)
         {
