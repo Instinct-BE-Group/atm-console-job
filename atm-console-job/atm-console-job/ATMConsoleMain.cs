@@ -329,7 +329,7 @@
 
                         if (int.TryParse(withdrawalOption, out int option) && option >= 1 && option <= 8)
                         {
-                            decimal withdrawalAmount = 0;
+                            decimal withdrawalAmount;
 
                             if (option >= 1 && option <= 7)
                             {
