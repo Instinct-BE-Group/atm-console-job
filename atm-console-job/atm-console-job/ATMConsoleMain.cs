@@ -18,9 +18,7 @@
 
             // Verify the card number and PIN
             AccountHolder? accountHolder = FindAccountHolder(cardNumber);
-            Console.WriteLine("Please Wait\n");
             Console.Clear();
-
 
             if (accountHolder != null)
             {
@@ -70,6 +68,7 @@
             Console.Clear();
             string? pin = GetInput("Please enter your old PIN: \n");
             string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
+
             Console.Clear();
 
             if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
@@ -491,6 +490,7 @@
                 Console.WriteLine("3. Credit\n");
 
                 string? input = GetInput("Enter your choice (1-3): ");
+
                 Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
@@ -640,14 +640,18 @@
                 }
                 else
                 {
-                    Console.Clear();
+                    accountHolder.AccountBalance -= amount;
+
                     Console.WriteLine($"{amount}");
                     Console.Clear();
                     Console.WriteLine("Please enter your meter number\n");
 
                     string? meterNumber = Console.ReadLine();
-                    if (meterNumber != null && int.TryParse(meterNumber, out int meterNo))
+                    Console.ReadLine();
+                    Console.Clear();
+                    if (meterNumber != null)
                     {
+
                         Console.WriteLine("Unit purchased successfully\n");
                     }
                     else
