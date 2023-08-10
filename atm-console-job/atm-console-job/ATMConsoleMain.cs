@@ -7,9 +7,13 @@
             Console.Title = "Team Instinct ATM";
             // Welcome screen
             Console.WriteLine("Welcome, please insert your card\n");
-
+            Console.ReadKey();
+            Console.Clear();
             // Customer Input - Card Number and PIN
-            string? cardNumber = GetInput("Insert Card: ");
+            string? cardNumber = "0000900200190000";
+            //string? cardNumber = GetInput("Insert Card: ");
+            Console.WriteLine("Please Wait");
+            Console.ReadKey();
             Console.Clear();
 
             // Verify the card number and PIN
@@ -83,7 +87,7 @@
         {
             Console.Clear();
             string? pin = GetInput("Please enter your PIN: \n");
-            string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
+            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n");
             Console.Clear();
 
             if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
@@ -201,11 +205,14 @@
                         string? response = GetInput("");
                         if (response?.Trim().ToLower() != "yes")
                         {
+
                             continueTransaction = false;
                         }
                         else
                         {
                             Console.Clear();
+                            HandlePinEntryMode2(cardNumber);
+                            continueTransaction = true;
                         }
                     }
 
@@ -281,6 +288,8 @@
 
                         Console.WriteLine($"\nCongratulations {accountHolder.AccountName}");
                         Console.WriteLine($"\nYour account has been created your account Number is 00{accNumber}\n");
+                        Console.ReadKey();
+                        Console.Clear();
                     }
                 }
             }
@@ -306,140 +315,99 @@
                 string? input = GetInput("Enter your choice (1-3): ");
                 Console.Clear();
 
-                if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
+                if (int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
                     string? selectedAccountType = GetAccountType(value);
 
                     if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
+                        Console.WriteLine("Do you want a receipt for this transaction?");
+                        Console.WriteLine("1. Yes \t\t\t\t2.No");
+                        string? receiptOption = GetInput("Select an option (1-2): ");
+                        Console.Clear();
+
                         // Display available withdrawal amounts
-                        Console.WriteLine("Available withdrawal amounts\n");
+                        Console.WriteLine("Available withdrawal amounts:\n");
                         Console.WriteLine("1. N 500\t\t\t\t5. N 10000\n");
                         Console.WriteLine("2. N 1000\t\t\t\t6. N 20000\n");
                         Console.WriteLine("3. N 2000\t\t\t\t7. N 40000\n");
                         Console.WriteLine("4. N 5000\t\t\t\t8. Others\n");
 
                         string? withdrawalOption = GetInput("Select an option (1-8): ");
-                        //Console.Clear();
+                        Console.Clear();
 
-                        if (int.TryParse(withdrawalOption, out int opt) && opt >= 1 && opt <= 8)
+                        if (int.TryParse(withdrawalOption, out int option) && option >= 1 && option <= 8)
                         {
-                            decimal withdrawalAmount;
+                            decimal withdrawalAmount = 0;
 
-                            if (opt >= 1 && opt <= 7)
+                            if (option >= 1 && option <= 7)
                             {
                                 // Map the selected option to the corresponding withdrawal amount
                                 decimal[] withdrawalAmounts = { 500, 1000, 2000, 5000, 10000, 20000, 40000 };
-                                withdrawalAmount = withdrawalAmounts[opt - 1];
-
-                                if (withdrawalAmount > accountHolder.AccountBalance)
-                                {
-                                    Console.WriteLine("Insufficient Balance.");
-                                }
-                                else if (withdrawalAmount < accountHolder.AccountBalance)
-                                {
-                                    Console.WriteLine($"Withdrawal Amount is: N {withdrawalAmount:N2}");
-                                    Console.WriteLine($"Available Balance is: N {accountHolder.AccountBalance:N2}");
-
-                                    // Debit the account and display success message
-                                    accountHolder.UpdateBalance(-withdrawalAmount);
-
-                                    Console.WriteLine($"Take your cash: N {withdrawalAmount:N2}");
-                                    Console.WriteLine($"Available Balance is: N {accountHolder.AccountBalance:N2}");
-
-
-                                    Console.Clear();
-
-                                    //Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
-                                    //Console.WriteLine("It's easy to use, just select recharge now\n\n");
-                                    //Console.WriteLine("1. Recharge Now\n");
-                                    //Console.WriteLine("2. Try Later\n");
-                                    //string? rechargeOption = GetInput("Select an option (1-2): ");
-                                    //if (rechargeOption == "1")
-                                    //{
-                                    //    // recharge steps
-                                    //    Console.WriteLine("Okay");
-                                    //}
-                                    //else
-                                    //{
-                                    //    string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                                    //    Console.Clear();
-
-                                    //    if (anotherTransactionOption?.ToLower() == "no")
-                                    //    {
-                                    //        //Console.WriteLine("Thank you for using our ATM. Please take your card.");
-                                    //        return;
-                                    //    }
-                                    //}
-                                }
-                                else if (withdrawalAmount <= 0)
-                                {
-                                    Console.WriteLine("Invalid withdrawal amount.");
-                                }
-                                else if (accountHolder.AccountBalance - withdrawalAmount < 0)
-                                {
-                                    Console.WriteLine("Insufficient Balance.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Error");
-                                }
+                                withdrawalAmount = withdrawalAmounts[option - 1];
                             }
-                            else if (opt == 8) // Others
+                            else if (option == 8) // Others
                             {
-                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500):\n\n");
+                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of 500):\n\n");
                                 Console.Clear();
 
                                 if (decimal.TryParse(amountInput, out decimal enteredAmount) && enteredAmount % 500 == 0)
                                 {
                                     withdrawalAmount = enteredAmount;
-
-                                    if (withdrawalAmount > accountHolder.AccountBalance)
-                                    {
-                                        Console.WriteLine("Insufficient Balance.");
-                                    }
-                                    else if (withdrawalAmount <= 0)
-                                    {
-                                        Console.WriteLine("Invalid withdrawal amount.");
-                                    }
-                                    else if (accountHolder.AccountBalance - withdrawalAmount < 0)
-                                    {
-                                        Console.WriteLine("Insufficient Balance.");
-                                    }
-                                    else
-                                    {
-                                        // Debit the account and display success message
-                                        accountHolder.UpdateBalance(-withdrawalAmount);
-
-                                        Console.WriteLine($"Take your cash: N {withdrawalAmount:N2}");
-                                        Console.Clear();
-
-                                        Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
-                                        Console.WriteLine("It's easy to use, just select recharge now\n\n");
-                                        Console.WriteLine("1. Recharge Now\n");
-                                        Console.WriteLine("2. Try Later\n");
-                                        string? rechargeOption = GetInput("Select an option (1-2): ");
-                                        if (rechargeOption == "1")
-                                        {
-                                            // recharge steps
-                                            Console.WriteLine("Okay");
-                                        }
-                                        else
-                                        {
-                                            string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                                            Console.Clear();
-
-                                            if (anotherTransactionOption?.ToLower() == "no")
-                                            {
-                                                //Console.WriteLine("Thank you for using our ATM. Please take your card.");
-                                                return;
-                                            }
-                                        }
-                                    }
                                 }
                                 else
                                 {
                                     Console.WriteLine("Invalid amount. Please enter a valid amount in multiples of ₦500.");
+                                    return;
+                                }
+                            }
+
+                            if (withdrawalAmount <= 0)
+                            {
+                                Console.WriteLine("Invalid withdrawal amount.");
+                            }
+                            else if (withdrawalAmount > accountHolder.AccountBalance)
+                            {
+                                Console.WriteLine("Insufficient Balance");
+                            }
+                            else
+                            {
+                                // Debit the account and display success message
+                                accountHolder.AccountBalance -= withdrawalAmount;
+
+                                if (receiptOption == "1")
+                                {
+                                    Console.WriteLine($"Take your cash: N {withdrawalAmount:N2}");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                    Console.WriteLine($"Receipt Printed");
+                                    Console.WriteLine($"Withrawn Amount: N {withdrawalAmount:N2}");
+                                    Console.WriteLine($"Account Balance: N {accountHolder.AccountBalance:N2}");
+                                    Console.Clear();
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Take your cash");
+                                    Console.Clear();
+                                    return;
+                                }
+
+
+
+                                Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
+                                Console.WriteLine("It's easy to use, just select recharge now\n\n");
+                                Console.WriteLine("1. Recharge Now\n");
+                                Console.WriteLine("2. Try Later\n");
+
+                                string? rechargeOption = GetInput("Select an option (1-2): ");
+                                if (rechargeOption == "1")
+                                {
+                                    Console.WriteLine("Okay");
+                                    Console.Clear();
+                                }
+                                else
+                                {
+                                    Console.Clear();
                                     return;
                                 }
                             }
@@ -474,8 +442,10 @@
                 if (oldPIN == accountHolder.PIN)
                 {
                     string? newPIN = GetInput("Enter your new PIN: ");
+                    Console.ReadKey();
                     Console.Clear();
                     string? confirmNewPIN = GetInput("Confirm your new PIN: ");
+                    Console.ReadKey();
                     Console.Clear();
 
                     if (newPIN == confirmNewPIN)
@@ -483,20 +453,25 @@
                         // Update the PIN
                         accountHolder.PIN = newPIN;
                         Console.WriteLine("PIN successfully changed.");
+                        Console.ReadKey();
+                        Console.Clear();
                     }
                     else
                     {
                         Console.WriteLine("PINs do not match. PIN change failed.");
+                        Console.Clear();
                     }
                 }
                 else
                 {
                     Console.WriteLine("Incorrect old PIN. PIN change failed.");
+                    Console.Clear();
                 }
             }
             else
             {
                 Console.WriteLine("Account not found.");
+                Console.Clear();
             }
         }
 
@@ -524,12 +499,16 @@
 
                     if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
-                        Console.WriteLine($"Account Name: {accountHolder.AccountName}");
-                        Console.WriteLine($"Account Balance: N {accountHolder.AccountBalance:N2}");
+                        Console.WriteLine($"Hello, {accountHolder.AccountName}\n");
+                        Console.WriteLine($"Your account balance is N {accountHolder.AccountBalance:N2}\n");
+                        Console.ReadKey();
+                        Console.Clear();
                     }
                     else
                     {
-                        Console.WriteLine($"Wrong Account type");
+                        Console.WriteLine($"Wrong Account type\n");
+                        Console.ReadKey();
+                        Console.Clear();
                     }
                 }
             }
@@ -548,16 +527,15 @@
             {
                 // Select Account Type
                 Console.WriteLine("Select Account type\n");
-                Console.WriteLine("1. CURRENT");
-                Console.WriteLine("2. SAVINGS");
-                Console.WriteLine("3. CREDIT");
+                Console.WriteLine("1. CURRENT\n");
+                Console.WriteLine("2. SAVINGS\n");
+                Console.WriteLine("3. CREDIT\n");
 
                 string? input = GetInput("Enter your choice (1-3): ");
                 Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
-
                     string? amount = GetInput("Enter amount: ");
                     Console.Clear();
                     string? beneficiaryaccountnumber = GetInput("Enter beneficiary account number: ");
@@ -565,38 +543,34 @@
                     if (!string.IsNullOrEmpty(amount) && !string.IsNullOrEmpty(beneficiaryaccountnumber) && beneficiaryaccountnumber.Length == 10)
                     {
                         Console.WriteLine("Select bank type\n");
-                        Console.WriteLine("1. Access Diamond");
-                        Console.WriteLine("2. Key Stone Bank");
-                        Console.WriteLine("3. United Bank Of Africa");
-                        Console.WriteLine("4. Fidelity Bank");
-                        Console.WriteLine("5. First Bank");
-                        Console.WriteLine("6. Sterling Bank");
-                        Console.WriteLine("7. Polaris Bank");
-                        Console.WriteLine("8. Providous Bank");
-                        Console.WriteLine("9. Standard Trust");
-                        Console.WriteLine("10. Zenith Bank");
-                        Console.WriteLine("11. Guaranty Trust Bank");
+                        Console.WriteLine("1. Access Diamond\t\t\t\t5. First Bank\n");
+                        Console.WriteLine("2. Guaranty Trust Bank\t\t\t\t6. Sterling Bank\n");
+                        Console.WriteLine("3. Zenith Bank\t\t\t\t7. United Bank Of Africa\n");
+                        Console.WriteLine("4. Fidelity Bank\t\t\t\t8. More\n");
 
                         string? banks = Console.ReadLine();
                         Console.Clear();
                         if (banks != null && int.TryParse(banks, out int options) && options >= 1 && options <= 11)
                         {
                             int.TryParse(amount, out int transferamount);
-                            decimal balance = accountHolder.AccountBalance;
-                            decimal balanceleft = balance - transferamount;
+                            // Debit the account and display success message
+                            accountHolder.AccountBalance -= transferamount;
 
                             Console.WriteLine("Transaction successful!");
-                            Console.WriteLine($"Your new balance is {balanceleft}");
+                            Console.ReadKey();
+                            Console.Clear();
                         }
                         else
                         {
-                            Console.WriteLine("Failed Transaction!");
+                            Console.WriteLine("Failed Transaction!\n");
+                            Console.ReadKey();
+                            Console.Clear();
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Wrong account type");
+                    Console.WriteLine($"Wrong account type\n");
                 }
             }
         }
@@ -608,102 +582,77 @@
 
             if (accountHolder != null)
             {
-                //Display Options
-                Console.WriteLine("PLEASE SELECT OPTION");
-                Console.WriteLine("1. AIRTIME RECHARGE");
-                Console.WriteLine("2. PAYBILLS");
-                Console.WriteLine("3. SEND MONEY");
-                Console.WriteLine("4. SAFETOKEN");
-                Console.WriteLine("5. MAKE A PAYMENT");
-                Console.WriteLine("6. RECEIVE MONEY");
-                Console.WriteLine("7. BUY TICKET");
-                Console.WriteLine("8. MORE");
+                Console.WriteLine("PLEASE SELECT OPTION\n");
+                Console.WriteLine("1. AIRTIME RECHARGE\t\t\t\t5. MAKE A PAYMENT\n");
+                Console.WriteLine("2. PAYBILLS\t\t\t\t6. RECEIVE MONEY\n");
+                Console.WriteLine("3. SEND MONEY\t\t\t\t7. BUY TICKET\n");
+                Console.WriteLine("4. SAFETOKEN\t\t\t\t8. MORE\n");
 
                 string[] quickteller = { "NONE", "1. AIRTIME RECHARGE", "2. PAYBILLS", "3. SEND MONEY", "4. SAFETOKEN", "5. MAKE A PAYMENT", "6. RECEIVE MONEY", "7. BUY TICKET", "8. MORE" };
-                // convert the string input to int and use tryparse to handle errors
                 int input = Convert.ToInt32(Console.ReadLine());
                 int output;
 
-                //SELECT MENU OPTION
                 for (int i = 0; i < quickteller.Length; i++)
                 {
-                    //Console.WriteLine(item);
                     if (input == i)
                     {
                         output = i;
-                        //print result
                         Console.Clear();
                         Console.WriteLine(quickteller[output]);
                     }
                 }
-                //paybills option chosen
 
-                //select option for account type
-                Console.WriteLine("Please select your account type");
-                Console.WriteLine("1. CURRENT");
-                Console.WriteLine("2. SAVINGS");
-                Console.WriteLine("3. CREDIT");
-                int selcetCardType = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Please select your account type\n");
+                Console.WriteLine("1. CURRENT\n");
+                Console.WriteLine("2. SAVINGS\n");
+                Console.WriteLine("3. CREDIT\n");
+                int selectAccountType = Convert.ToInt32(Console.ReadLine());
 
-                //select a payment option
                 Console.Clear();
-                Console.WriteLine("Please select a payment option");
-                Console.WriteLine("1. ELECTRICITY");
-                Console.WriteLine("2. CABLE TV");
-                Console.WriteLine("3. LCC TV");
-                Console.WriteLine("4. MOBILE POSTPAID");
-                Console.WriteLine("5. PAY A MERCHANT");
-                Console.WriteLine("6. AIRLINES");
-                Console.WriteLine("7. DIESEL PURCHASE");
-                Console.WriteLine("8. MORE");
+                Console.WriteLine("Please select a payment option\n");
+                Console.WriteLine("1. ELECTRICITY\t\t\t\t5. PAY A MERCHANT\n");
+                Console.WriteLine("2. CABLE TV\t\t\t\t6. AIRLINES\n");
+                Console.WriteLine("3. LCC TV\t\t\t\t7. DIESEL PURCHASE\n");
+                Console.WriteLine("4. MOBILE POSTPAID\t\t\t\t8. MORE\n");
                 int paymentOption = Convert.ToInt32(Console.ReadLine());
 
-                //select the package you wish to pay for
                 Console.Clear();
-                Console.WriteLine("Please select a payment option");
-                Console.WriteLine("1. POSTPAID");
-                Console.WriteLine("2. PREPAID");
+                Console.WriteLine("Please select a payment option\n");
+                Console.WriteLine("1. POSTPAID\n");
+                Console.WriteLine("2. PREPAID\n");
 
-                //select your power distribution company
                 int prepaid = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
-                Console.WriteLine("Please select your power distribution company");
-                Console.WriteLine("1. EKO");
-                Console.WriteLine("2. ENUGU");
-                Console.WriteLine("3. IKEJA");
-                Console.WriteLine("4. BENIN");
-                Console.WriteLine("5. IBADAN");
-                Console.WriteLine("6. PORTHARCOURT");
-                Console.WriteLine("7. KANO");
-                Console.WriteLine("8. NEXT");
+                Console.WriteLine("Please select your power distribution company\n");
+                Console.WriteLine("1. EKO\t\t\t\t5. IBADAN\n");
+                Console.WriteLine("2. ENUGU\t\t\t\t6. PORTHARCOURT\n");
+                Console.WriteLine("3. IKEJA\t\t\t\t7. KANO\n");
+                Console.WriteLine("4. BENIN\t\t\t\t8. NEXT\n");
 
-                //define user input for distCo
                 int distCo = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
 
-                //define the amount to debit
-                Console.WriteLine("Please enter the amount for the prepaid unit you want to buy");
-
+                Console.WriteLine("Please enter the amount for the prepaid unit you want to buy\n");
                 int amount = Convert.ToInt32(Console.ReadLine());
                 if (amount > accountHolder.AccountBalance)
                 {
-                    Console.WriteLine("Insufficient funds");
+                    Console.WriteLine("Insufficient funds\n");
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine($"{amount}");
                     Console.Clear();
-                    Console.WriteLine("Please enter your meter number");
-                    //Input your meter number
+                    Console.WriteLine("Please enter your meter number\n");
+
                     string? meterNumber = Console.ReadLine();
-                    if (meterNumber != null && meterNumber.Length == 14 && int.TryParse(meterNumber, out int meterNo))
+                    if (meterNumber != null && int.TryParse(meterNumber, out int meterNo))
                     {
-                        Console.WriteLine("Unit purchased successfully");
+                        Console.WriteLine("Unit purchased successfully\n");
                     }
                     else
                     {
-                        Console.WriteLine("input a valid meter number");
+                        Console.WriteLine("Input a valid meter number\n");
                     }
                 }
             }
@@ -721,14 +670,14 @@
 
             if (accountHolder != null)
             {
-                Console.WriteLine("\n---------Pay Arena---------\n");
+                Console.WriteLine("Pay Arena\n");
                 // Implement logic for the Pay Bills process
                 // Including card type selection, inputting amount, bill type selection, validation, etc.
                 //Display Options
-                Console.WriteLine("PLEASE SELECT OPTION");
-                Console.WriteLine("1. AIRTIME RECHARGE");
-                Console.WriteLine("2. BILL PAYMENT");
-                Console.WriteLine("3. MONEY TRANSFER");
+                Console.WriteLine("PLEASE SELECT OPTION\n");
+                Console.WriteLine("1. AIRTIME RECHARGE\n");
+                Console.WriteLine("2. BILL PAYMENT\n");
+                Console.WriteLine("3. MONEY TRANSFER\n");
                 string[] payarena = { "NONE", "1. AIRTIME RECHARGE", "2. BILL PAYMENT", "3. MONEY TRANSFER" };
                 // convert the string input to int and use tryparse to handle errors
                 int input = Convert.ToInt32(Console.ReadLine());
@@ -748,41 +697,32 @@
                 }
                 //airtime rech option chosen
                 //select option for account type
-                Console.WriteLine("Please select your account type");
-                Console.WriteLine("1. CURRENT");
-                Console.WriteLine("2. SAVINGS");
-                Console.WriteLine("3. CREDIT");
-                int selcetCardType = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Please select your account type\n");
+                Console.WriteLine("1. CURRENT\n");
+                Console.WriteLine("2. SAVINGS\n");
+                Console.WriteLine("3. CREDIT\n");
+                int selcetAccountType = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine("Please select your account type");
-                Console.WriteLine("1. CURRENT");
-                Console.WriteLine("2. SAVINGS");
-                Console.WriteLine("3. CREDIT");
 
                 //select an option
                 Console.Clear();
-                Console.WriteLine("Please select an option");
-                Console.WriteLine("1. AIRTEL");
-                Console.WriteLine("2. MTN");
-                Console.WriteLine("3. GLO");
-                Console.WriteLine("4. ETISALAT");
-                Console.WriteLine("5. SMILE");
+                Console.WriteLine("Please select an option\n");
+                Console.WriteLine("1. AIRTEL\t\t\t\t4. ETISALAT\n");
+                Console.WriteLine("2. MTN\t\t\t\t5. SMILE\n");
+                Console.WriteLine("3. GLO\n");
                 int selectOption = Convert.ToInt32(Console.ReadLine());
 
                 //select airtime amount
                 Console.Clear();
-                Console.WriteLine("Please select the airtime amount");
-                Console.WriteLine("1. N 100");
-                Console.WriteLine("2. N 200");
-                Console.WriteLine("3. N 500");
-                Console.WriteLine("4. N 1000");
-                Console.WriteLine("5. N 1500");
-                Console.WriteLine("6. OTHER");
+                Console.WriteLine("Please select the airtime amount\n");
+                Console.WriteLine("1. N 100\t\t\t\t4. N 1000\n");
+                Console.WriteLine("2. N 200\t\t\t\t5. N 1500\n");
+                Console.WriteLine("3. N 500\t\t\t\t6. OTHER\n");
 
                 int airtimeamount = Convert.ToInt32(Console.ReadLine());
                 if (airtimeamount > accountHolder.AccountBalance)
                 {
-                    Console.WriteLine("             ");
+                    Console.WriteLine("Insufficient Balance");
                 }
                 else
                 {
@@ -791,6 +731,7 @@
                     Console.Clear();
                     string[] airtime = { "NONE", "1. N 100", "2. N 200", "3. N 500", "4. N 1000", "5. N 1500", "6. OTHER" };
                     Console.WriteLine("Please enter the phone number you wish to recharge");
+
                     //Input your phone number
                     string? phoneNumber = Console.ReadLine();
                     if (phoneNumber != null && phoneNumber.Length == 11 && int.TryParse(phoneNumber, out int phoneNo))
