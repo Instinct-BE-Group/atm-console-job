@@ -64,7 +64,7 @@
         static void HandlePinEntryMode1(string? cardNumber)
         {
             Console.Clear();
-            string? pin = GetInput("Please enter your old PIN: ");
+            string? pin = GetInput("Please enter your old PIN: \n");
             string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
             Console.Clear();
 
@@ -82,7 +82,7 @@
         static void HandlePinEntryMode2(string? cardNumber)
         {
             Console.Clear();
-            string? pin = GetInput("Please enter your PIN: ");
+            string? pin = GetInput("Please enter your PIN: \n");
             string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
             Console.Clear();
 
@@ -325,19 +325,72 @@
                         DisplayMessage("4. N 5000\t\t\t\t8. Others\n");
 
                         string? withdrawalOption = GetInput("Select an option (1-8): ");
-                        Console.Clear();
+                        //Console.Clear();
 
-                        if (int.TryParse(withdrawalOption, out int option) && option >= 1 && option <= 8)
+                        if (int.TryParse(withdrawalOption, out int opt) && opt >= 1 && opt <= 8)
                         {
-                            decimal withdrawalAmount = 0;
+                            decimal withdrawalAmount;
 
-                            if (option >= 1 && option <= 7)
+                            if (opt >= 1 && opt <= 7)
                             {
                                 // Map the selected option to the corresponding withdrawal amount
                                 decimal[] withdrawalAmounts = { 500, 1000, 2000, 5000, 10000, 20000, 40000 };
-                                withdrawalAmount = withdrawalAmounts[option - 1];
+                                withdrawalAmount = withdrawalAmounts[opt - 1];
+
+                                if (withdrawalAmount > accountHolder.AccountBalance)
+                                {
+                                    DisplayMessage("Insufficient Balance.");
+                                }
+                                else if (withdrawalAmount < accountHolder.AccountBalance)
+                                {
+                                    DisplayMessage($"Withdrawal Amount is: N {withdrawalAmount:N2}");
+                                    DisplayMessage($"Available Balance is: N {accountHolder.AccountBalance:N2}");
+
+                                    // Debit the account and display success message
+                                    accountHolder.UpdateBalance(-withdrawalAmount);
+
+                                    DisplayMessage($"Take your cash: N {withdrawalAmount:N2}");
+                                    DisplayMessage($"Available Balance is: N {accountHolder.AccountBalance:N2}");
+
+
+                                    Console.Clear();
+
+                                    //DisplayMessage("Did you know you can recharge your phone on this ATM right now!\n");
+                                    //DisplayMessage("It's easy to use, just select recharge now\n\n");
+                                    //DisplayMessage("1. Recharge Now\n");
+                                    //DisplayMessage("2. Try Later\n");
+                                    //string? rechargeOption = GetInput("Select an option (1-2): ");
+                                    //if (rechargeOption == "1")
+                                    //{
+                                    //    // recharge steps
+                                    //    DisplayMessage("Okay");
+                                    //}
+                                    //else
+                                    //{
+                                    //    string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
+                                    //    Console.Clear();
+
+                                    //    if (anotherTransactionOption?.ToLower() == "no")
+                                    //    {
+                                    //        //DisplayMessage("Thank you for using our ATM. Please take your card.");
+                                    //        return;
+                                    //    }
+                                    //}
+                                }
+                                else if (withdrawalAmount <= 0)
+                                {
+                                    DisplayMessage("Invalid withdrawal amount.");
+                                }
+                                else if (accountHolder.AccountBalance - withdrawalAmount < 0)
+                                {
+                                    DisplayMessage("Insufficient Balance.");
+                                }
+                                else
+                                {
+                                    DisplayMessage("Error");
+                                }
                             }
-                            else if (option == 8) // Others
+                            else if (opt == 8) // Others
                             {
                                 string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500):\n\n");
                                 Console.Clear();
@@ -345,54 +398,54 @@
                                 if (decimal.TryParse(amountInput, out decimal enteredAmount) && enteredAmount % 500 == 0)
                                 {
                                     withdrawalAmount = enteredAmount;
+
+                                    if (withdrawalAmount > accountHolder.AccountBalance)
+                                    {
+                                        DisplayMessage("Insufficient Balance.");
+                                    }
+                                    else if (withdrawalAmount <= 0)
+                                    {
+                                        DisplayMessage("Invalid withdrawal amount.");
+                                    }
+                                    else if (accountHolder.AccountBalance - withdrawalAmount < 0)
+                                    {
+                                        DisplayMessage("Insufficient Balance.");
+                                    }
+                                    else
+                                    {
+                                        // Debit the account and display success message
+                                        accountHolder.UpdateBalance(-withdrawalAmount);
+
+                                        DisplayMessage($"Take your cash: N {withdrawalAmount:N2}");
+                                        Console.Clear();
+
+                                        DisplayMessage("Did you know you can recharge your phone on this ATM right now!\n");
+                                        DisplayMessage("It's easy to use, just select recharge now\n\n");
+                                        DisplayMessage("1. Recharge Now\n");
+                                        DisplayMessage("2. Try Later\n");
+                                        string? rechargeOption = GetInput("Select an option (1-2): ");
+                                        if (rechargeOption == "1")
+                                        {
+                                            // recharge steps
+                                            DisplayMessage("Okay");
+                                        }
+                                        else
+                                        {
+                                            string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
+                                            Console.Clear();
+
+                                            if (anotherTransactionOption?.ToLower() == "no")
+                                            {
+                                                //DisplayMessage("Thank you for using our ATM. Please take your card.");
+                                                return;
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                 {
                                     DisplayMessage("Invalid amount. Please enter a valid amount in multiples of ₦500.");
                                     return;
-                                }
-                            }
-
-                            if (withdrawalAmount > accountHolder.AccountBalance)
-                            {
-                                DisplayMessage("Insufficient Balance.");
-                            }
-                            else if (withdrawalAmount <= 0)
-                            {
-                                DisplayMessage("Invalid withdrawal amount.");
-                            }
-                            else if (accountHolder.AccountBalance - withdrawalAmount < 0)
-                            {
-                                DisplayMessage("Insufficient Balance.");
-                            }
-                            else
-                            {
-                                // Debit the account and display success message
-                                accountHolder.UpdateBalance(-withdrawalAmount);
-
-                                DisplayMessage($"Take your cash: N {withdrawalAmount:N2}");
-                                Console.Clear();
-
-                                DisplayMessage("Did you know you can recharge your phone on this ATM right now!\n");
-                                DisplayMessage("It's easy to use, just select recharge now\n\n");
-                                DisplayMessage("1. Recharge Now\n");
-                                DisplayMessage("2. Try Later\n");
-                                string? rechargeOption = GetInput("Select an option (1-2): ");
-                                if (rechargeOption == "1")
-                                {
-                                    // recharge steps
-                                    DisplayMessage("Okay");
-                                }
-                                else
-                                {
-                                    string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                                    Console.Clear();
-
-                                    if (anotherTransactionOption?.ToLower() == "no")
-                                    {
-                                        //DisplayMessage("Thank you for using our ATM. Please take your card.");
-                                        return;
-                                    }
                                 }
                             }
                         }
