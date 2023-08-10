@@ -224,7 +224,7 @@
         {
             // Implement logic to display and get the main menu option chosen by the user
             DisplayMessage("What would you like to do?\n");
-            DisplayMessage("1. Open Account \t\t\t\t2. Withdraw Cash\n");
+            DisplayMessage("1. Open Account \t\t\t2. Withdraw Cash\n");
             DisplayMessage("3. Change PIN \t\t\t\t4. Check Balance\n");
             DisplayMessage("5. Transfer Money\t\t\t6. QuickTeller\n");
             DisplayMessage("7. Pay Arena \t\t\t\t8. More\n");

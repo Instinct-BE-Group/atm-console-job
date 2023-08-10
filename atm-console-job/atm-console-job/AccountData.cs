@@ -22,7 +22,6 @@
                 {
                     throw new InvalidOperationException("Insufficient funds for withdrawal.");
                 }
-
                 // Update the balance for withdrawals
                 AccountBalance = newBalance;
             }
