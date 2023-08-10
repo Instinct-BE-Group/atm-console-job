@@ -68,7 +68,7 @@ namespace atm_console_job
         static void HandlePinEntryMode1(string? cardNumber)
         {
             Console.Clear();
-            string? pin = GetInput("Please enter your old PIN: ");
+            string? pin = GetSecureInput("Please enter your old PIN: ");
             string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n");
             Console.Clear();
 
@@ -471,13 +471,13 @@ namespace atm_console_job
 
             if (accountHolder != null)
             {
-                string? oldPIN = GetInput("Enter your old PIN: ");
+                string? oldPIN = GetSecureInput("Enter your old PIN: ");
                 Console.Clear();
                 if (oldPIN == accountHolder.PIN)
                 {
-                    string? newPIN = GetInput("Enter your new PIN: ");
+                    string? newPIN = GetSecureInput("Enter your new PIN: ");
                     Console.Clear();
-                    string? confirmNewPIN = GetInput("Confirm your new PIN: ");
+                    string? confirmNewPIN = GetSecureInput("Confirm your new PIN: ");
                     Console.Clear();
 
                     if (newPIN == confirmNewPIN)
