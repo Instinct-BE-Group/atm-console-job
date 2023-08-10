@@ -23,7 +23,6 @@ namespace atm_console_job
             Console.WriteLine("Please Wait\n");
             Console.Clear();
 
-
             if (accountHolder != null)
             {
                 Console.Clear();
@@ -46,7 +45,6 @@ namespace atm_console_job
             {
                 Console.WriteLine("Card not found. Thank you for using our ATM.");
             }
-
         }
 
         static string? GetPinEntryMode()
@@ -261,10 +259,7 @@ namespace atm_console_job
                             continueTransaction = true;
                         }
                     }
-
                 };
-
-
             }// End of transaction
             Console.WriteLine("Thank you for using our ATM. Please take your card.\n");
 
