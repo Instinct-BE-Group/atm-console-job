@@ -10,6 +10,27 @@
         public string? AccountType { get; set; }
         public string? PIN { get; set; }
         public string? BVN { get; set; }
+        public void UpdateBalance(decimal amount)
+        {
+            // Additional validation for withdrawals
+            if (amount < 0)
+            {
+                decimal newBalance = AccountBalance + amount;
+
+                // Check if the new balance after withdrawal is negative
+                if (newBalance < 0)
+                {
+                    throw new InvalidOperationException("Insufficient funds for withdrawal.");
+                }
+                // Update the balance for withdrawals
+                AccountBalance = newBalance;
+            }
+            else
+            {
+                // For other operations (deposits, transfers, etc.)
+                AccountBalance += amount;
+            }
+        }
     }
 
     // Create a list to store the account holders' details

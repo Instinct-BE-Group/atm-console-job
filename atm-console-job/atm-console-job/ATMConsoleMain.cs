@@ -4,16 +4,19 @@
     {
         static void Main(string[] args)
         {
-            Console.Title = "Team Instinct";
+            Console.Title = "Team Instinct ATM";
             // Welcome screen
-            DisplayMessage("Welcome to Sterling Bank\n");
+            DisplayMessage("Welcome, please insert your card\n");
 
             // Customer Input - Card Number and PIN
-            string? cardNumber = GetInput("Enter your Card Number: ");
+            string? cardNumber = GetInput("Insert Card: ");
             Console.Clear();
 
             // Verify the card number and PIN
             AccountHolder? accountHolder = FindAccountHolder(cardNumber);
+            DisplayMessage("Please Wait\n");
+            Console.Clear();
+
 
             if (accountHolder != null)
             {
@@ -43,14 +46,13 @@
         static string? GetPinEntryMode()
         {
             // Display the PIN entry mode options
-            DisplayMessage("Please Select your PIN entry mode:");
-            DisplayMessage("1) Activate your card or Change Pin");
-            DisplayMessage("2) Enter Pin");
+            DisplayMessage("Please select your PIN entry mode\n");
+            DisplayMessage("1) Activate your card or Change Pin\t\t\t2) Enter Pin\n");
 
             // Prompt the user for input and keep asking until a valid option is selected
             while (true)
             {
-                string? input = GetInput(" ");
+                string? input = GetInput("");
                 if (input == "1" || input == "2")
                 {
                     return input;
@@ -61,8 +63,9 @@
 
         static void HandlePinEntryMode1(string? cardNumber)
         {
+            Console.Clear();
             string? pin = GetInput("Please enter your old PIN: ");
-            string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
+            string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
             Console.Clear();
 
             if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
@@ -78,8 +81,10 @@
 
         static void HandlePinEntryMode2(string? cardNumber)
         {
+            Console.Clear();
             string? pin = GetInput("Please enter your PIN: ");
-            string? pinOption = GetInput("1) Proceed\t\t\t 2) Cancel \n");
+            string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
+            Console.Clear();
 
             if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
             {
@@ -153,7 +158,7 @@
             {
                 Console.Clear();
                 // Handle null cardNumber, such as displaying an error message.
-                DisplayMessage("Invalid Card number, cannot proceed.");
+                DisplayMessage("Invalid Card number, cannot proceed.\n");
                 return;
             }
             else
@@ -197,7 +202,7 @@
                     //do you want to perform another transaction
                     if (continueTransaction)
                     {
-                        DisplayMessage("Do you want to perform another transaction? (yes/no): ");
+                        DisplayMessage("Do you want to perform another transaction? (yes/no): \n");
                         string? response = GetInput("");
                         if (response?.Trim().ToLower() != "yes")
                         {
@@ -212,21 +217,18 @@
                 } while (continueTransaction);
             }
             // End of transaction
-            DisplayMessage("Thank you for using our ATM. Please take your card.");
+            DisplayMessage("Thank you for using our ATM. Please take your card.\n");
         }
 
         static int ShowMainMenu()
         {
             // Implement logic to display and get the main menu option chosen by the user
-            DisplayMessage("What would you like to do?");
-            DisplayMessage("1. Open Account");
-            DisplayMessage("2. Withdraw Cash");
-            DisplayMessage("3. Change PIN");
-            DisplayMessage("4. Check Balance");
-            DisplayMessage("5. Transfer Money");
-            DisplayMessage("6. QuickTeller");
-            DisplayMessage("7. Pay Arena");
-            DisplayMessage("8. More");
+            DisplayMessage("What would you like to do?\n");
+            DisplayMessage("1. Open Account \t\t\t2. Withdraw Cash\n");
+            DisplayMessage("3. Change PIN \t\t\t\t4. Check Balance\n");
+            DisplayMessage("5. Transfer Money\t\t\t6. QuickTeller\n");
+            DisplayMessage("7. Pay Arena \t\t\t\t8. More\n");
+
 
             while (true)
             {
@@ -238,7 +240,7 @@
                 }
                 else
                 {
-                    DisplayMessage("Invalid input. Please enter a valid option (1-8).");
+                    DisplayMessage("Invalid input. Please enter a valid option (1-8): \n");
                 }
             }
         }
@@ -260,26 +262,27 @@
 
             if (accountHolder != null)
             {
-                DisplayMessage("Select Account Type");
-                DisplayMessage("1. Current");
-                DisplayMessage("2. Savings");
+                DisplayMessage("Select Account Type\n");
+                DisplayMessage("1. Current\n");
+                DisplayMessage("2. Savings\n");
 
                 string? accountType = GetInput("Enter your choice (1-2): ");
+                Console.Clear();
 
-                string? bvn = GetInput("Input your BVN: ");
+                string? bvn = GetInput("Input your BVN: \n");
+                Console.Clear();
 
                 if (bvn == accountHolder.BVN)
                 {
                     string? otp = GetInput("Input the OTP sent to your registered phone number: ");
+                    Console.Clear();
 
                     if (!string.IsNullOrEmpty(otp) && otp.Length == 6)
                     {
-
                         var random = new Random();
                         string accNumber = string.Empty;
                         for (int i = 0; i < 8; i++)
                             accNumber = String.Concat(accNumber, random.Next(8).ToString());
-                        // return s;
 
                         DisplayMessage($"\nCongratulations {accountHolder.AccountName}");
                         DisplayMessage($"\nYour account has been created your account Number is 00{accNumber}\n");
@@ -288,17 +291,13 @@
             }
             else
             {
-                DisplayMessage("No Account Found");
+                DisplayMessage("Ooops, error");
             }
-            // Including BVN verification, OTP verification, etc.
         }
 
         static void WithdrawCash(string? cardNumber)
         {
             DisplayMessage("Withdraw Cash");
-            // Implement logic for the Withdraw Cash process
-            // Including Account type selection, amount selection, and cross-selling options
-            // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
             if (accountHolder != null)
@@ -310,6 +309,7 @@
                 DisplayMessage("3. Credit\n");
 
                 string? input = GetInput("Enter your choice (1-3): ");
+                Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
@@ -318,92 +318,81 @@
                     if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
                         // Display available withdrawal amounts
-                        DisplayMessage("Available withdrawal amounts:");
-                        DisplayMessage("1. ₦500");
-                        DisplayMessage("2. ₦1000");
-                        DisplayMessage("3. ₦2000");
-                        DisplayMessage("4. ₦5000");
-                        DisplayMessage("5. ₦10000");
-                        DisplayMessage("6. ₦20000");
-                        DisplayMessage("7. ₦40000");
-                        DisplayMessage("8. Others");
+                        DisplayMessage("Available withdrawal amounts\n");
+                        DisplayMessage("1. N 500\t\t\t\t5. N 10000\n");
+                        DisplayMessage("2. N 1000\t\t\t\t6. N 20000\n");
+                        DisplayMessage("3. N 2000\t\t\t\t7. N 40000\n");
+                        DisplayMessage("4. N 5000\t\t\t\t8. Others\n");
 
                         string? withdrawalOption = GetInput("Select an option (1-8): ");
+                        Console.Clear();
 
                         if (int.TryParse(withdrawalOption, out int option) && option >= 1 && option <= 8)
                         {
                             decimal withdrawalAmount = 0;
-                            if (option < 8)
+
+                            if (option >= 1 && option <= 7)
                             {
-                                switch (option)
-                                {
-                                    case 1: withdrawalAmount = 500; break;
-                                    case 2: withdrawalAmount = 1000; break;
-                                    case 3: withdrawalAmount = 2000; break;
-                                    case 4: withdrawalAmount = 5000; break;
-                                    case 5: withdrawalAmount = 10000; break;
-                                    case 6: withdrawalAmount = 20000; break;
-                                    case 7: withdrawalAmount = 40000; break;
-                                }
-
-                                if (withdrawalAmount > accountHolder.AccountBalance)
-                                {
-                                    DisplayMessage("Insufficient Balance.");
-                                }
-                                else
-                                {
-                                    DisplayMessage($"Take your cash: ₦{withdrawalAmount:N2}");
-
-                                    string? rechargeOption = GetInput("Do you want to recharge your phone? (yes/no): ");
-                                    if (rechargeOption?.ToLower() == "yes")
-                                    {
-                                        DisplayMessage("Okay");
-                                    }
-                                    else
-                                    {
-                                        string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                                        if (anotherTransactionOption?.ToLower() == "no")
-                                        {
-                                            DisplayMessage("Thank you for using our ATM. Please take your card.");
-                                            return;
-                                        }
-                                    }
-                                }
+                                // Map the selected option to the corresponding withdrawal amount
+                                decimal[] withdrawalAmounts = { 500, 1000, 2000, 5000, 10000, 20000, 40000 };
+                                withdrawalAmount = withdrawalAmounts[option - 1];
                             }
-                            else // Others
+                            else if (option == 8) // Others
                             {
-                                decimal enteredAmount = 0;
-                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500): ");
+                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500):\n\n");
+                                Console.Clear();
 
-                                if (decimal.TryParse(amountInput, out enteredAmount) && enteredAmount % 500 == 0)
+                                if (decimal.TryParse(amountInput, out decimal enteredAmount) && enteredAmount % 500 == 0)
                                 {
-                                    if (enteredAmount > accountHolder.AccountBalance)
-                                    {
-                                        DisplayMessage("Insufficient Balance.");
-                                    }
-                                    else
-                                    {
-                                        DisplayMessage($"Take your cash: ₦{enteredAmount:N2}");
-
-                                        string? rechargeOption = GetInput("Do you want to recharge your phone? (yes/no): ");
-                                        if (rechargeOption?.ToLower() == "yes")
-                                        {
-                                            DisplayMessage("Okay");
-                                        }
-                                        else
-                                        {
-                                            string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                                            if (anotherTransactionOption?.ToLower() == "no")
-                                            {
-                                                DisplayMessage("Thank you for using our ATM. Please take your card.");
-                                                return;
-                                            }
-                                        }
-                                    }
+                                    withdrawalAmount = enteredAmount;
                                 }
                                 else
                                 {
                                     DisplayMessage("Invalid amount. Please enter a valid amount in multiples of ₦500.");
+                                    return;
+                                }
+                            }
+
+                            if (withdrawalAmount > accountHolder.AccountBalance)
+                            {
+                                DisplayMessage("Insufficient Balance.");
+                            }
+                            else if (withdrawalAmount <= 0)
+                            {
+                                DisplayMessage("Invalid withdrawal amount.");
+                            }
+                            else if (accountHolder.AccountBalance - withdrawalAmount < 0)
+                            {
+                                DisplayMessage("Insufficient Balance.");
+                            }
+                            else
+                            {
+                                // Debit the account and display success message
+                                accountHolder.UpdateBalance(-withdrawalAmount);
+
+                                DisplayMessage($"Take your cash: N {withdrawalAmount:N2}");
+                                Console.Clear();
+
+                                DisplayMessage("Did you know you can recharge your phone on this ATM right now!\n");
+                                DisplayMessage("It's easy to use, just select recharge now\n\n");
+                                DisplayMessage("1. Recharge Now\n");
+                                DisplayMessage("2. Try Later\n");
+                                string? rechargeOption = GetInput("Select an option (1-2): ");
+                                if (rechargeOption == "1")
+                                {
+                                    // recharge steps
+                                    DisplayMessage("Okay");
+                                }
+                                else
+                                {
+                                    string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
+                                    Console.Clear();
+
+                                    if (anotherTransactionOption?.ToLower() == "no")
+                                    {
+                                        //DisplayMessage("Thank you for using our ATM. Please take your card.");
+                                        return;
+                                    }
                                 }
                             }
                         }
@@ -433,10 +422,13 @@
             if (accountHolder != null)
             {
                 string? oldPIN = GetInput("Enter your old PIN: ");
+                Console.Clear();
                 if (oldPIN == accountHolder.PIN)
                 {
                     string? newPIN = GetInput("Enter your new PIN: ");
+                    Console.Clear();
                     string? confirmNewPIN = GetInput("Confirm your new PIN: ");
+                    Console.Clear();
 
                     if (newPIN == confirmNewPIN)
                     {
@@ -476,6 +468,7 @@
                 DisplayMessage("3. Credit\n");
 
                 string? input = GetInput("Enter your choice (1-3): ");
+                Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
@@ -484,7 +477,7 @@
                     if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
                         DisplayMessage($"Account Name: {accountHolder.AccountName}");
-                        DisplayMessage($"Account Balance: ₦{accountHolder.AccountBalance:N2}");
+                        DisplayMessage($"Account Balance: N {accountHolder.AccountBalance:N2}");
                     }
                     else
                     {
@@ -512,13 +505,15 @@
                 DisplayMessage("3. CREDIT");
 
                 string? input = GetInput("Enter your choice (1-3): ");
+                Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
                 {
 
                     string? amount = GetInput("Enter amount: ");
+                    Console.Clear();
                     string? beneficiaryaccountnumber = GetInput("Enter beneficiary account number: ");
-
+                    Console.Clear();
                     if (!string.IsNullOrEmpty(amount) && !string.IsNullOrEmpty(beneficiaryaccountnumber) && beneficiaryaccountnumber.Length == 10)
                     {
                         DisplayMessage("Select bank type\n");
@@ -535,6 +530,7 @@
                         DisplayMessage("11. Guaranty Trust Bank");
 
                         string? banks = Console.ReadLine();
+                        Console.Clear();
                         if (banks != null && int.TryParse(banks, out int options) && options >= 1 && options <= 11)
                         {
                             int.TryParse(amount, out int transferamount);
