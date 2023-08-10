@@ -339,7 +339,7 @@
                             }
                             else if (option == 8) // Others
                             {
-                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500): ");
+                                string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500):\n\n");
                                 Console.Clear();
 
                                 if (decimal.TryParse(amountInput, out decimal enteredAmount) && enteredAmount % 500 == 0)
@@ -395,98 +395,6 @@
                                     }
                                 }
                             }
-
-
-
-
-
-                            //if (option < 8)
-                            //{
-                            //    if (withdrawalAmount > accountHolder.AccountBalance)
-                            //    {
-                            //        DisplayMessage("Insufficient Balance.");
-                            //    }
-                            //    else if (withdrawalAmount <= 0)
-                            //    {
-                            //        DisplayMessage("Invalid withdrawal amount.");
-                            //    }
-                            //    else if (accountHolder.AccountBalance - withdrawalAmount < 0)
-                            //    {
-                            //        DisplayMessage("Insufficient Balance.");
-                            //    }
-                            //    else
-                            //    {
-                            //        // Debit the account and display success message
-                            //        accountHolder.UpdateBalance(-withdrawalAmount);
-
-                            //        DisplayMessage($"Take your cash: N {withdrawalAmount:N2}");
-                            //        Console.Clear();
-
-                            //        DisplayMessage("Did you know you can recharge your phone on this ATM right now!\n");
-                            //        DisplayMessage("It's easy to use, just select recharge now\n\n");
-                            //        DisplayMessage("1. Recharge Now\n");
-                            //        DisplayMessage("2. Try Later\n");
-                            //        string? rechargeOption = GetInput("Select an option (1-2): ");
-                            //        if (rechargeOption == "1")
-                            //        {
-                            //            // recharge steps
-                            //            DisplayMessage("Okay");
-                            //        }
-                            //        else
-                            //        {
-                            //            string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                            //            Console.Clear();
-
-                            //            if (anotherTransactionOption?.ToLower() == "no")
-                            //            {
-                            //                //DisplayMessage("Thank you for using our ATM. Please take your card.");
-                            //                return;
-                            //            }
-                            //        }
-                            //    }
-                            //}
-                            //else // Others
-                            //{
-                            //    decimal enteredAmount = 0;
-                            //    string? amountInput = GetInput("Enter the withdrawal amount (in multiples of ₦500): ");
-                            //    Console.Clear();
-
-                            //    if (decimal.TryParse(amountInput, out enteredAmount) && enteredAmount % 500 == 0)
-                            //    {
-                            //        if (enteredAmount > accountHolder.AccountBalance)
-                            //        {
-                            //            Console.Clear();
-                            //            DisplayMessage("Insufficient Balance.");
-                            //        }
-                            //        else
-                            //        {
-                            //            // Debit the account and display success message
-                            //            accountHolder.AccountBalance -= enteredAmount;
-                            //            DisplayMessage($"Take your cash: ₦{enteredAmount:N2}");
-                            //            Console.Clear();
-
-                            //            string? rechargeOption = GetInput("Do you want to recharge your phone? (yes/no): ");
-                            //            if (rechargeOption?.ToLower() == "yes")
-                            //            {
-                            //                DisplayMessage("Okay");
-                            //            }
-                            //            else
-                            //            {
-                            //                string? anotherTransactionOption = GetInput("Do you want to perform another transaction? (yes/no): ");
-                            //                Console.Clear();
-                            //                if (anotherTransactionOption?.ToLower() == "no")
-                            //                {
-                            //                    DisplayMessage("Thank you for using our ATM. Please take your card.");
-                            //                    return;
-                            //                }
-                            //            }
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        DisplayMessage("Invalid amount. Please enter a valid amount in multiples of ₦500.");
-                            //    }
-                            //}
                         }
                         else
                         {
