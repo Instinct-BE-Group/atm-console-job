@@ -22,15 +22,12 @@
             {
                 AccountNumber = "0090020019",
                 AccountName = "Tunde Mufasa",
-                AccountBalance = 20000000,
+                AccountBalance = 200000,
                 CardNumber = "0000900200190000",
                 AccountType =  "Current",
-                PIN = "2023",
+                PIN = "1111",
                 BVN = "22289012340"
             },
         };
     }
 }
-
-
-
