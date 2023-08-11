@@ -1,4 +1,6 @@
-﻿namespace atm_console_job
+﻿using System.Text;
+
+namespace atm_console_job
 {
     internal class ATMConsoleMain
     {
@@ -6,7 +8,7 @@
         {
             Console.Title = "Team Instinct ATM";
             // Welcome screen
-            Console.WriteLine("Welcome, please insert your card\n");
+            Console.WriteLine("Welcome, please insert your card");
             Console.ReadKey();
             Console.Clear();
             // Customer Input - Card Number and PIN
@@ -18,7 +20,6 @@
 
             // Verify the card number and PIN
             AccountHolder? accountHolder = FindAccountHolder(cardNumber);
-            Console.Clear();
 
             if (accountHolder != null)
             {
@@ -42,14 +43,13 @@
             {
                 Console.WriteLine("Card not found. Thank you for using our ATM.");
             }
-
         }
 
         static string? GetPinEntryMode()
         {
             // Display the PIN entry mode options
             Console.WriteLine("Please select your PIN entry mode\n");
-            Console.WriteLine("1) Activate your card or Change Pin\t\t\t2) Enter Pin\n");
+            Console.WriteLine("1) Activate your card or Change Pin\t\t2) Enter Pin\n");
 
             // Prompt the user for input and keep asking until a valid option is selected
             while (true)
@@ -66,15 +66,20 @@
         static void HandlePinEntryMode1(string? cardNumber)
         {
             Console.Clear();
-            string? pin = GetInput("Please enter your old PIN: \n");
-            string? pinOption = GetInput("1) Proceed\t\t\t\t2) Cancel \n");
-
+            string? pin = GetSecureInput("Please enter your old PIN: ");
+            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n\n");
             Console.Clear();
 
             if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
             {
-                Console.WriteLine($"Welcome {GetAccountName(cardNumber)}");
+                Console.WriteLine($"Welcome {GetAccountName(cardNumber)}\n");
                 ChangePIN(cardNumber);
+                Console.Clear();
+                MainOperation(cardNumber);
+            }
+            else if (pinOption == "2")
+            {
+                Console.WriteLine("Transaction canceled. Thank you for using our ATM.");
             }
             else
             {
@@ -85,14 +90,22 @@
         static void HandlePinEntryMode2(string? cardNumber)
         {
             Console.Clear();
-            string? pin = GetInput("Please enter your PIN: \n");
-            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n");
+            string? pin = GetSecureInput("\nPlease enter your PIN: ");
+            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n\n");
             Console.Clear();
 
             if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
             {
                 Console.WriteLine($"Welcome {GetAccountName(cardNumber)}\n");
                 MainOperation(cardNumber);
+            }
+            else if (pinOption == "2")
+            {
+                Console.WriteLine("Transaction canceled. Thank you for using our ATM.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid PIN. Thank you for using our ATM.");
             }
         }
 
@@ -102,18 +115,49 @@
             return Console.ReadLine();
         }
 
-        static bool VerifyCustomer(string? cardNumber, string? pin)
+        static string GetSecureInput(string prompt)
         {
-            // Implement customer verification logic here
-            foreach (var item in AccountData.accountHolders)
+            // Define what is inputted
+            Console.Write(prompt);
+
+            // Creates a place to store the characters that were inputted
+            StringBuilder input = new StringBuilder();
+
+            // Starts the loop that will run until the user presses Enter
+            ConsoleKeyInfo key;
+            do
             {
-                if (item.CardNumber == cardNumber && item.PIN == pin)
+                // Listens for each key the user inputs
+                key = Console.ReadKey(true);
+
+                // If the user presses any key other than Backspace or Enter
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
-                    // Return true if customer is verified successfully, otherwise false
-                    return true;
+                    // Add the key to our input and show an asterisk on the screen
+                    input.Append(key.KeyChar);
+                    Console.Write("*");
+                }
+                else
+                {
+                    // If the user presses the Backspace key
+                    if (key.Key == ConsoleKey.Backspace && input.Length > 0)
+                    {
+                        // Remove the last character from our input and erase the asterisk from the screen
+                        input.Length--;
+                        Console.Write("\b \b");
+                    }
                 }
             }
-            return false;
+            // Repeat the loop until the user presses the Enter key
+            while (key.Key != ConsoleKey.Enter);
+
+            Console.WriteLine();
+            return input.ToString();
+        }
+
+        static bool VerifyCustomer(string? cardNumber, string? pin)
+        {
+            return AccountData.accountHolders.Any(holder => holder.CardNumber == cardNumber && holder.PIN == pin);
         }
 
         static AccountHolder? FindAccountHolder(string? cardNumber)
@@ -131,7 +175,7 @@
                     return item.AccountName;
                 }
             }
-            return "Account Not Found";
+            return "Account Not Found\n";
         }
 
         static string GetAccountType(int value)
@@ -163,7 +207,7 @@
             {
                 // Main Menu
                 bool continueTransaction = true;
-                do
+                while (continueTransaction)
                 {
                     int option = ShowMainMenu();
                     switch (option)
@@ -200,12 +244,13 @@
                     //do you want to perform another transaction
                     if (continueTransaction)
                     {
-                        Console.WriteLine("Do you want to perform another transaction? (yes/no): \n");
+                        Console.WriteLine("Do you want to perform another transaction? \n");
+                        Console.WriteLine("1. Yes\t\t\t\t2.No \n");
                         string? response = GetInput("");
-                        if (response?.Trim().ToLower() != "yes")
+                        if (response != null && int.TryParse(response, out int res) && res != 1)
                         {
-
                             continueTransaction = false;
+                            return;
                         }
                         else
                         {
@@ -214,11 +259,10 @@
                             continueTransaction = true;
                         }
                     }
-
-                } while (continueTransaction);
-            }
-            // End of transaction
+                };
+            }// End of transaction
             Console.WriteLine("Thank you for using our ATM. Please take your card.\n");
+
         }
 
         static int ShowMainMenu()
@@ -246,15 +290,6 @@
             }
         }
 
-        public string RandomDigits(int length)
-        {
-            var random = new Random();
-            string s = string.Empty;
-            for (int i = 0; i < length; i++)
-                s = String.Concat(s, random.Next(10).ToString());
-            return s;
-        }
-
         static void OpenAccount(string? cardNumber)
         {
             Console.WriteLine("Open Account");
@@ -270,7 +305,7 @@
                 string? accountType = GetInput("Enter your choice (1-2): ");
                 Console.Clear();
 
-                string? bvn = GetInput("Input your BVN: \n");
+                string? bvn = GetInput("Input your BVN: ");
                 Console.Clear();
 
                 if (bvn == accountHolder.BVN)
@@ -320,8 +355,8 @@
 
                     if (selectedAccountType != null && selectedAccountType == accountHolder.AccountType)
                     {
-                        Console.WriteLine("Do you want a receipt for this transaction?");
-                        Console.WriteLine("1. Yes \t\t\t\t2.No");
+                        Console.WriteLine("Do you want a receipt for this transaction?\n");
+                        Console.WriteLine("1. Yes \t\t\t\t2.No\n");
                         string? receiptOption = GetInput("Select an option (1-2): ");
                         Console.Clear();
 
@@ -363,35 +398,33 @@
 
                             if (withdrawalAmount <= 0)
                             {
-                                Console.WriteLine("Invalid withdrawal amount.");
+                                Console.WriteLine("Invalid withdrawal amount.\n");
                             }
                             else if (withdrawalAmount > accountHolder.AccountBalance)
                             {
-                                Console.WriteLine("Insufficient Balance");
+                                Console.WriteLine("Insufficient Balance\n");
                             }
                             else
                             {
                                 // Debit the account and display success message
                                 accountHolder.AccountBalance -= withdrawalAmount;
 
-                                if (receiptOption == "1")
+                                if (receiptOption != null && int.TryParse(receiptOption, out int receiptOpt) && receiptOpt == 1)
                                 {
-                                    Console.WriteLine($"Take your cash: N {withdrawalAmount:N2}");
+                                    Console.WriteLine($"Take your cash\n");
                                     Console.ReadKey();
-                                    Console.Clear();
-                                    Console.WriteLine($"Receipt Printed");
-                                    Console.WriteLine($"Withrawn Amount: N {withdrawalAmount:N2}");
-                                    Console.WriteLine($"Account Balance: N {accountHolder.AccountBalance:N2}");
+                                    Console.WriteLine($"Receipt\n");
+                                    Console.WriteLine($"Withrawn Amount: N {withdrawalAmount:N2}\n");
+                                    Console.WriteLine($"Account Balance: N {accountHolder.AccountBalance:N2}\n");
+                                    Console.ReadKey();
                                     Console.Clear();
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"Take your cash");
+                                    Console.WriteLine($"Take your cash\n");
+                                    Console.ReadKey();
                                     Console.Clear();
-                                    return;
                                 }
-
-
 
                                 Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
                                 Console.WriteLine("It's easy to use, just select recharge now\n\n");
@@ -402,6 +435,7 @@
                                 if (rechargeOption == "1")
                                 {
                                     Console.WriteLine("Okay");
+                                    Console.ReadKey();
                                     Console.Clear();
                                 }
                                 else
@@ -413,38 +447,36 @@
                         }
                         else
                         {
-                            Console.WriteLine("Invalid option. Please select a valid option (1-8).");
+                            Console.WriteLine("Invalid option. Please select a valid option (1-8).\n");
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Wrong account type");
+                        Console.WriteLine($"Wrong account type\n");
                     }
                 }
             }
             else
             {
-                Console.WriteLine("Issuer error.");
+                Console.WriteLine("Issuer error.\n");
             }
         }
 
         static void ChangePIN(string cardNumber)
         {
-            Console.WriteLine("Change Pin");
+            Console.WriteLine("Change Pin\n");
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
             if (accountHolder != null)
             {
-                string? oldPIN = GetInput("Enter your old PIN: ");
+                string? oldPIN = GetSecureInput("Enter your old PIN: ");
                 Console.Clear();
                 if (oldPIN == accountHolder.PIN)
                 {
-                    string? newPIN = GetInput("Enter your new PIN: ");
-                    Console.ReadKey();
+                    string? newPIN = GetSecureInput("Enter your new PIN: ");
                     Console.Clear();
-                    string? confirmNewPIN = GetInput("Confirm your new PIN: ");
-                    Console.ReadKey();
+                    string? confirmNewPIN = GetSecureInput("Confirm your new PIN: ");
                     Console.Clear();
 
                     if (newPIN == confirmNewPIN)
@@ -490,7 +522,6 @@
                 Console.WriteLine("3. Credit\n");
 
                 string? input = GetInput("Enter your choice (1-3): ");
-
                 Console.Clear();
 
                 if (input != null && int.TryParse(input, out int value) && value >= 1 && value <= 3)
@@ -543,10 +574,10 @@
                     if (!string.IsNullOrEmpty(amount) && !string.IsNullOrEmpty(beneficiaryaccountnumber) && beneficiaryaccountnumber.Length == 10)
                     {
                         Console.WriteLine("Select bank type\n");
-                        Console.WriteLine("1. Access Diamond\t\t\t\t5. First Bank\n");
-                        Console.WriteLine("2. Guaranty Trust Bank\t\t\t\t6. Sterling Bank\n");
+                        Console.WriteLine("1. Access Diamond\t\t\t5. First Bank\n");
+                        Console.WriteLine("2. Guaranty Trust Bank\t\t\t6. Sterling Bank\n");
                         Console.WriteLine("3. Zenith Bank\t\t\t\t7. United Bank Of Africa\n");
-                        Console.WriteLine("4. Fidelity Bank\t\t\t\t8. More\n");
+                        Console.WriteLine("4. Fidelity Bank\t\t\t8. More\n");
 
                         string? banks = Console.ReadLine();
                         Console.Clear();
@@ -567,6 +598,10 @@
                             Console.Clear();
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid beneficiary account!\n");
+                    }
                 }
                 else
                 {
@@ -583,7 +618,7 @@
             if (accountHolder != null)
             {
                 Console.WriteLine("PLEASE SELECT OPTION\n");
-                Console.WriteLine("1. AIRTIME RECHARGE\t\t\t\t5. MAKE A PAYMENT\n");
+                Console.WriteLine("1. AIRTIME RECHARGE\t\t\t5. MAKE A PAYMENT\n");
                 Console.WriteLine("2. PAYBILLS\t\t\t\t6. RECEIVE MONEY\n");
                 Console.WriteLine("3. SEND MONEY\t\t\t\t7. BUY TICKET\n");
                 Console.WriteLine("4. SAFETOKEN\t\t\t\t8. MORE\n");
@@ -613,7 +648,7 @@
                 Console.WriteLine("1. ELECTRICITY\t\t\t\t5. PAY A MERCHANT\n");
                 Console.WriteLine("2. CABLE TV\t\t\t\t6. AIRLINES\n");
                 Console.WriteLine("3. LCC TV\t\t\t\t7. DIESEL PURCHASE\n");
-                Console.WriteLine("4. MOBILE POSTPAID\t\t\t\t8. MORE\n");
+                Console.WriteLine("4. MOBILE POSTPAID\t\t\t8. MORE\n");
                 int paymentOption = Convert.ToInt32(Console.ReadLine());
 
                 Console.Clear();
@@ -640,18 +675,14 @@
                 }
                 else
                 {
+                    Console.Clear();
                     accountHolder.AccountBalance -= amount;
 
-                    Console.WriteLine($"{amount}");
-                    Console.Clear();
                     Console.WriteLine("Please enter your meter number\n");
 
                     string? meterNumber = Console.ReadLine();
-                    Console.ReadLine();
-                    Console.Clear();
                     if (meterNumber != null)
                     {
-
                         Console.WriteLine("Unit purchased successfully\n");
                     }
                     else
