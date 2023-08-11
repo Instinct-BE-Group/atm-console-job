@@ -424,7 +424,6 @@ namespace atm_console_job
                                     Console.WriteLine($"Take your cash\n");
                                     Console.ReadKey();
                                     Console.Clear();
-                                    return;
                                 }
 
                                 Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
@@ -436,6 +435,7 @@ namespace atm_console_job
                                 if (rechargeOption == "1")
                                 {
                                     Console.WriteLine("Okay");
+                                    Console.ReadKey();
                                     Console.Clear();
                                 }
                                 else
