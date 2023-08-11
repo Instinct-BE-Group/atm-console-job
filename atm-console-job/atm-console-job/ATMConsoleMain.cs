@@ -72,8 +72,10 @@ namespace atm_console_job
 
             if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
             {
-                Console.WriteLine($"Welcome {GetAccountName(cardNumber)}");
+                Console.WriteLine($"Welcome {GetAccountName(cardNumber)}\n");
                 ChangePIN(cardNumber);
+                Console.Clear();
+                MainOperation(cardNumber);
             }
             else if (pinOption == "2")
             {
@@ -420,11 +422,10 @@ namespace atm_console_job
                                 else
                                 {
                                     Console.WriteLine($"Take your cash\n");
+                                    Console.ReadKey();
                                     Console.Clear();
                                     return;
                                 }
-
-
 
                                 Console.WriteLine("Did you know you can recharge your phone on this ATM right now!\n");
                                 Console.WriteLine("It's easy to use, just select recharge now\n\n");
@@ -463,7 +464,7 @@ namespace atm_console_job
 
         static void ChangePIN(string cardNumber)
         {
-            Console.WriteLine("Change Pin");
+            Console.WriteLine("Change Pin\n");
             // Find the account holder based on the card number
             AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
 
