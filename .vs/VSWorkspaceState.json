@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\atm-console-job",
+    "\\atm-console-job\\atm-console-job"
   ],
+  "SelectedNode": "\\atm-console-job\\atm-console-job\\ATMConsoleMain.cs",
   "PreviewInSolutionExplorer": false
 }
