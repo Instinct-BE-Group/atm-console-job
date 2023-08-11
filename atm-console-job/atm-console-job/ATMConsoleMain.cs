@@ -6,6 +6,8 @@ namespace atm_console_job
     {
         static void Main(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.Red;
+
             Console.Title = "Team Instinct ATM";
             // Welcome screen
             Console.WriteLine("Welcome, please insert your card");
@@ -195,8 +197,7 @@ namespace atm_console_job
 
         static void MainOperation(string? cardNumber)
         {
-            if
-                (string.IsNullOrEmpty(cardNumber))
+            if(string.IsNullOrEmpty(cardNumber))
             {
                 Console.Clear();
                 // Handle null cardNumber, such as displaying an error message.
@@ -230,10 +231,10 @@ namespace atm_console_job
                         case 6:
                             QuickTeller(cardNumber);
                             break;
+                        //case 7:
+                        //    PayArena(cardNumber);
+                        //    break;
                         case 7:
-                            PayArena(cardNumber);
-                            break;
-                        case 8:
                             continueTransaction = false;
                             break;
                         default:
@@ -272,7 +273,7 @@ namespace atm_console_job
             Console.WriteLine("1. Open Account \t\t\t2. Withdraw Cash\n");
             Console.WriteLine("3. Change PIN \t\t\t\t4. Check Balance\n");
             Console.WriteLine("5. Transfer Money\t\t\t6. QuickTeller\n");
-            Console.WriteLine("7. Pay Arena \t\t\t\t8. More\n");
+            Console.WriteLine("7. More\n");
 
 
             while (true)
@@ -697,88 +698,5 @@ namespace atm_console_job
             }
         }
 
-        static void PayArena(string? cardNumber)
-        {
-            Console.WriteLine("PayArena");
-            // Find the account holder based on the card number
-            AccountHolder? accountHolder = AccountData.accountHolders.Find(holder => holder.CardNumber == cardNumber);
-
-            if (accountHolder != null)
-            {
-                Console.WriteLine("Pay Arena\n");
-                // Implement logic for the Pay Bills process
-                // Including card type selection, inputting amount, bill type selection, validation, etc.
-                //Display Options
-                Console.WriteLine("PLEASE SELECT OPTION\n");
-                Console.WriteLine("1. AIRTIME RECHARGE\n");
-                Console.WriteLine("2. BILL PAYMENT\n");
-                Console.WriteLine("3. MONEY TRANSFER\n");
-                string[] payarena = { "NONE", "1. AIRTIME RECHARGE", "2. BILL PAYMENT", "3. MONEY TRANSFER" };
-                // convert the string input to int and use tryparse to handle errors
-                int input = Convert.ToInt32(Console.ReadLine());
-                int output;
-                //SELECT MENU OPTION
-                for (int b = 0; b < payarena.Length; b++)
-                {
-                    //Console.WriteLine(item);
-                    if (input == b)
-                    {
-
-                        output = b;
-                        //print result
-                        Console.Clear();
-                        Console.WriteLine(payarena[output]);
-                    }
-                }
-                //airtime rech option chosen
-                //select option for account type
-                Console.WriteLine("Please select your account type\n");
-                Console.WriteLine("1. CURRENT\n");
-                Console.WriteLine("2. SAVINGS\n");
-                Console.WriteLine("3. CREDIT\n");
-                int selcetAccountType = Convert.ToInt32(Console.ReadLine());
-
-
-                //select an option
-                Console.Clear();
-                Console.WriteLine("Please select an option\n");
-                Console.WriteLine("1. AIRTEL\t\t\t\t4. ETISALAT\n");
-                Console.WriteLine("2. MTN\t\t\t\t5. SMILE\n");
-                Console.WriteLine("3. GLO\n");
-                int selectOption = Convert.ToInt32(Console.ReadLine());
-
-                //select airtime amount
-                Console.Clear();
-                Console.WriteLine("Please select the airtime amount\n");
-                Console.WriteLine("1. N 100\t\t\t\t4. N 1000\n");
-                Console.WriteLine("2. N 200\t\t\t\t5. N 1500\n");
-                Console.WriteLine("3. N 500\t\t\t\t6. OTHER\n");
-
-                int airtimeamount = Convert.ToInt32(Console.ReadLine());
-                if (airtimeamount > accountHolder.AccountBalance)
-                {
-                    Console.WriteLine("Insufficient Balance");
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine($"{airtimeamount}");
-                    Console.Clear();
-                    string[] airtime = { "NONE", "1. N 100", "2. N 200", "3. N 500", "4. N 1000", "5. N 1500", "6. OTHER" };
-                    Console.WriteLine("Please enter the phone number you wish to recharge");
-
-                    //Input your phone number
-                    string? phoneNumber = Console.ReadLine();
-                    if (phoneNumber != null && phoneNumber.Length == 11 && int.TryParse(phoneNumber, out int phoneNo))
-                    {
-                        Console.WriteLine("Airtime recharged successfully");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Insufficient fund");
-                    }
-                }
-            }
-        }
     }
 }
