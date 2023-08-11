@@ -20,8 +20,6 @@ namespace atm_console_job
 
             // Verify the card number and PIN
             AccountHolder? accountHolder = FindAccountHolder(cardNumber);
-            Console.WriteLine("Please Wait\n");
-            Console.Clear();
 
             if (accountHolder != null)
             {
@@ -51,7 +49,7 @@ namespace atm_console_job
         {
             // Display the PIN entry mode options
             Console.WriteLine("Please select your PIN entry mode\n");
-            Console.WriteLine("1) Activate your card or Change Pin\t\t\t2) Enter Pin\n");
+            Console.WriteLine("1) Activate your card or Change Pin\t\t2) Enter Pin\n");
 
             // Prompt the user for input and keep asking until a valid option is selected
             while (true)
@@ -69,7 +67,7 @@ namespace atm_console_job
         {
             Console.Clear();
             string? pin = GetSecureInput("Please enter your old PIN: ");
-            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n");
+            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n\n");
             Console.Clear();
 
             if (!string.IsNullOrEmpty(cardNumber) && pinOption == "1" && VerifyCustomer(cardNumber, pin))
@@ -91,7 +89,7 @@ namespace atm_console_job
         {
             Console.Clear();
             string? pin = GetSecureInput("\nPlease enter your PIN: ");
-            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n");
+            string? pinOption = GetInput("\n1) Proceed\t\t\t\t2) Cancel \n\n");
             Console.Clear();
 
             if (pinOption == "1" && VerifyCustomer(cardNumber, pin))
@@ -619,7 +617,7 @@ namespace atm_console_job
             if (accountHolder != null)
             {
                 Console.WriteLine("PLEASE SELECT OPTION\n");
-                Console.WriteLine("1. AIRTIME RECHARGE\t\t\t\t5. MAKE A PAYMENT\n");
+                Console.WriteLine("1. AIRTIME RECHARGE\t\t\t5. MAKE A PAYMENT\n");
                 Console.WriteLine("2. PAYBILLS\t\t\t\t6. RECEIVE MONEY\n");
                 Console.WriteLine("3. SEND MONEY\t\t\t\t7. BUY TICKET\n");
                 Console.WriteLine("4. SAFETOKEN\t\t\t\t8. MORE\n");
@@ -649,7 +647,7 @@ namespace atm_console_job
                 Console.WriteLine("1. ELECTRICITY\t\t\t\t5. PAY A MERCHANT\n");
                 Console.WriteLine("2. CABLE TV\t\t\t\t6. AIRLINES\n");
                 Console.WriteLine("3. LCC TV\t\t\t\t7. DIESEL PURCHASE\n");
-                Console.WriteLine("4. MOBILE POSTPAID\t\t\t\t8. MORE\n");
+                Console.WriteLine("4. MOBILE POSTPAID\t\t\t8. MORE\n");
                 int paymentOption = Convert.ToInt32(Console.ReadLine());
 
                 Console.Clear();
@@ -677,12 +675,12 @@ namespace atm_console_job
                 else
                 {
                     Console.Clear();
-                    Console.WriteLine($"{amount}");
-                    Console.Clear();
+                    accountHolder.AccountBalance -= amount;
+
                     Console.WriteLine("Please enter your meter number\n");
 
                     string? meterNumber = Console.ReadLine();
-                    if (meterNumber != null && int.TryParse(meterNumber, out int meterNo))
+                    if (meterNumber != null)
                     {
                         Console.WriteLine("Unit purchased successfully\n");
                     }
