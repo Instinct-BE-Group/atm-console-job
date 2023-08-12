@@ -7,6 +7,7 @@ namespace atm_console_job
         static void Main(string[] args)
         {
             Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Black;
 
             Console.Title = "Team Instinct ATM";
             // Welcome screen
