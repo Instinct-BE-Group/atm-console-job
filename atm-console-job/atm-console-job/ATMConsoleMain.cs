@@ -119,7 +119,6 @@ namespace atm_console_job
 
         static string GetSecureInput(string prompt)
         {
-
             Console.Write(prompt);
             // Creates a place to store the characters that were inputted
             StringBuilder input = new StringBuilder();
@@ -130,19 +129,15 @@ namespace atm_console_job
                 // Listens for each key the user inputs
                 key = Console.ReadKey(true);
 
-                // If the user presses any key other than Backspace or Enter
                 if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
-                    // Add the key to our input and show an asterisk on the screen
                     input.Append(key.KeyChar);
                     Console.Write("*");
                 }
                 else
                 {
-                    // If the user presses the Backspace key
                     if (key.Key == ConsoleKey.Backspace && input.Length > 0)
                     {
-                        // Remove the last character from our input and erase the asterisk from the screen
                         input.Length--;
                         Console.Write("\b \b");
                     }
