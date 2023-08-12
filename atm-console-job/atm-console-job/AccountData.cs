@@ -26,7 +26,7 @@
                 CardNumber = "0000900200190000",
                 AccountType =  "Current",
                 PIN = "1111",
-                BVN = "22289012340"
+                BVN = "11122223333"
             },
         };
     }
