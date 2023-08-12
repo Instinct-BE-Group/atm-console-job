@@ -119,12 +119,10 @@ namespace atm_console_job
 
         static string GetSecureInput(string prompt)
         {
-            // Define what is inputted
-            Console.Write(prompt);
 
+            Console.Write(prompt);
             // Creates a place to store the characters that were inputted
             StringBuilder input = new StringBuilder();
-
             // Starts the loop that will run until the user presses Enter
             ConsoleKeyInfo key;
             do
