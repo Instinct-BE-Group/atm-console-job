@@ -197,7 +197,7 @@ namespace atm_console_job
 
         static void MainOperation(string? cardNumber)
         {
-            if(string.IsNullOrEmpty(cardNumber))
+            if (string.IsNullOrEmpty(cardNumber))
             {
                 Console.Clear();
                 // Handle null cardNumber, such as displaying an error message.
@@ -278,8 +278,8 @@ namespace atm_console_job
 
             while (true)
             {
-                string? input = GetInput("Enter your choice (1-8): ");
-                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int option) && option >= 1 && option <= 8)
+                string? input = GetInput("Enter your choice (1-7): ");
+                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int option) && option >= 1 && option <= 7)
                 {
                     Console.Clear();
                     return option;
